@@ -146,6 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="world.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="creature.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="exit.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="room.h" />
+    <ClInclude Include="world.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
