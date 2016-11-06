@@ -9,7 +9,7 @@ class Exit;
 class Room : public Entity
 {
 public:
-	Room(const char* name, const char* description);
+	Room(const string& name, const string& description);
 	~Room();
 
 	Exit* GetExit(const string& direction) const;

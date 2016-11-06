@@ -8,11 +8,9 @@ using namespace std;
 
 enum EntityType
 {
-	ENTITY,
 	ROOM,
 	EXIT,
 	ITEM,
-	CREATURE,
 	PLAYER
 };
 
@@ -23,14 +21,12 @@ public:
 	virtual ~Entity();
 
 	virtual void Look() const;
-
-	void	ChangeParentTo(Entity* new_parent);
+	virtual void Update();
 
 public:
 	EntityType type;
 	string name;
 	string description;
-
 	Entity* parent;
 	list<Entity*> container;
 };
