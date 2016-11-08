@@ -7,11 +7,15 @@
 class Exit : public Entity
 {
 public:
-	Exit(const string& name, const string& opposite_name, const string& description, Room* origin, Room* destination, bool blocked = false);
+	Exit(const string& name, const string& description, Room* origin, Room* destination, bool blocked = false);
 	~Exit();
 
+	void Look() const;
 
 public:
+	
+	Room* origin;
+	Room* destination; 
 	bool blocked;
 
 };

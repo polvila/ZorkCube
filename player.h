@@ -7,10 +7,12 @@
 class Player : public Entity
 {
 public:
-	Player(const string& name, const string& description, Room* room);
+	Player(const string& name, const string& description);
 	~Player();
 
 public:
+
+	
 
 };
 

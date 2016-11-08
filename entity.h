@@ -8,6 +8,7 @@ using namespace std;
 
 enum EntityType
 {
+	ENTITY,
 	ROOM,
 	EXIT,
 	ITEM,
@@ -17,7 +18,7 @@ enum EntityType
 class Entity
 {
 public:
-	Entity();
+	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
 	virtual void Look() const;
@@ -27,7 +28,6 @@ public:
 	EntityType type;
 	string name;
 	string description;
-	Entity* parent;
 	list<Entity*> container;
 };
 

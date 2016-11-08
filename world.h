@@ -1,6 +1,7 @@
 #ifndef __World__
 #define __World__
 
+#include <list>
 #include <vector>
 
 using namespace std;

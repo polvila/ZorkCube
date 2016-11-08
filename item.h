@@ -6,13 +6,14 @@
 enum ItemType
 {
 	COMMON,
-	EQUIPABLE
+	EQUIPABLE,
+	CONSUMABLE
 };
 
 class Item : public Entity
 {
 public:
-	Item(const string& name, const string& description, Entity* parent, ItemType item_type = COMMON);
+	Item(const string& name, const string& description, ItemType item_type = COMMON);
 	~Item();
 
 	void Look() const;
