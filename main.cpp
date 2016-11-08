@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
+#include "world.h"
 
 using namespace std;
 
 int main() 
 {
 	string order;
-
-	cout << "You have awakened, you can not remember what has happened or how you got here.\n";
-	cout << "----------------\n";
+	
+	World the_cube;
 
 	while(1)
 	{
