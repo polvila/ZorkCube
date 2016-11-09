@@ -7,11 +7,14 @@
 class Player : public Entity
 {
 public:
-	Player(const string& name, const string& description);
+	Player(const string& name, const string& description, Room* location);
 	~Player();
+
+	string Look();
 
 public:
 
+	Room* location;
 	
 
 };

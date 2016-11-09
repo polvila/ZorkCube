@@ -16,7 +16,7 @@ public:
 	Item(const string& name, const string& description, ItemType item_type = COMMON);
 	~Item();
 
-	void Look() const;
+	string Look() const;
 
 public:
 	ItemType item_type;

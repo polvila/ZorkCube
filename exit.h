@@ -4,17 +4,27 @@
 #include "room.h"
 #include "entity.h"
 
+enum Direction
+{
+	NORTH,
+	EAST,
+	WEST,
+	SOUTH,
+	UP,
+	DOWN
+};
+
 class Exit : public Entity
 {
 public:
-	Exit(const string& name, const string& description, Room* origin, Room* destination, bool blocked = false);
+	Exit(const string& name, const string& description, Direction direction, Room* destination, bool blocked = false);
 	~Exit();
 
-	void Look() const;
+	string Look() const;
 
 public:
 	
-	Room* origin;
+	Direction direction;
 	Room* destination; 
 	bool blocked;
 

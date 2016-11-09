@@ -11,13 +11,18 @@ Entity::~Entity()
 {
 }
 
-void Entity::Look() const
+string Entity::Look() const
 {
-	cout << name << endl;
-	cout << description << endl;
+	return name + "\n" + description + "\n";
 }
 
 void Entity::Update()
 {
 
 }
+
+void Entity::Add(Entity* entity)
+{
+	container.push_back(entity);
+}
+

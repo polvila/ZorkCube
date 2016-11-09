@@ -21,8 +21,10 @@ public:
 	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
-	virtual void Look() const;
+	virtual string Look() const;
 	virtual void Update();
+
+	void Add(Entity* entity);
 
 public:
 	EntityType type;
