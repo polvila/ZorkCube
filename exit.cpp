@@ -1,8 +1,8 @@
 #include <iostream>
 #include "exit.h"
 
-Exit::Exit(const string& name, const string& description, Direction direction, Room* destination,  bool blocked) :
-	Entity(name,description), direction(direction), destination(destination), blocked(blocked)
+Exit::Exit(const string& name, const string& description, Room* destination,  bool blocked) :
+	Entity(name,description), destination(destination), blocked(blocked)
 {
 	type = EXIT;
 }

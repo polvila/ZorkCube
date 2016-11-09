@@ -7,32 +7,28 @@
 
 World::World()
 {
-	Room* roomC = new Room("21'1 000 2'11", "You are in a cubic white room.");
-	Room* roomE = new Room("31'0 41'1' 101'", "You are in a cubic red room identified with the following numbers:\n---31'0 41'1' 101'---");
-	Room* roomA = new Room("3'21 000 101'", "You are in a cubic orange room identified with the following numbers:\n---3'21 000 101'---");
+	Room* roomC = new Room("Initial Room", "You are in a cubic white room.", "white");
+	Room* roomE = new Room("31'0 41'1' 101'", "You are in a cubic red room.", "red");
+	Room* roomA = new Room("3'21 000 101'", "You are in a cubic orange room.", "orange");
 
 	Exit* exitCA = new Exit(
-		"3'21 000 101'", 
-		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...",
-		NORTH,
+		"north", 
+		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel... 3'21 000 101'",
 		roomA);
 
 	Exit* exitCE = new Exit(
-		"31'0 41'1' 101'", 
-		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...",
-		EAST,
+		"east", 
+		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel... 31'0 41'1' 101'",
 		roomE);
 
 	Exit* exitEC = new Exit(
-		"21'1 000 2'11",
-		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...",
-		WEST,
+		"west",
+		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel... 21'1 000 2'11",
 		roomC);
 	
 	Exit* exitAC = new Exit(
-		"21'1 000 2'11",
-		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...",
-		SOUTH, 
+		"south",
+		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel... 21'1 000 2'11",
 		roomC);
 	
 	Item* boots = new Item("Boots", "A few commonly used boots.");
@@ -67,20 +63,24 @@ void World::Add(Entity* entity)
 
 string World::EntryMessage()
 {
-	return "You have awakened, you can not remember what has happened or how you got here.\n----------------\n";
+	return "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
 }
 
-void World::Check(string& input)
+void World::Process(string& input)
 {
 	vector<string> args = Split(input, " ");
 	
 	if(args.size() == 1)
 	{
-		if (args[0].compare("look") == 0)
+		if (args[0] == "look")
 		{
 			cout << player->Look();
 		}
 		
+	}else if(args.size() == 2)
+	{
+		if (args[0] == "goto")
+			cout << player->GoTo(args[1]);
 	}
 
 	//for (std::vector<string>::const_iterator i = args.begin(); i != args.end(); ++i)

@@ -17,7 +17,7 @@ int main()
 	{
 		if (_kbhit() != 0) {
 			getline(cin, input);
-			theCube.Check(input);
+			theCube.Process(input);
 		}
 
 	}

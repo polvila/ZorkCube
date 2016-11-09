@@ -1,8 +1,8 @@
 #include <iostream>
 #include "room.h"
 
-Room::Room(const string& name, const string& description) :
-	Entity(name, description)
+Room::Room(const string& name, const string& description, const string& color) :
+	Entity(name, description), color(color)
 {
 	type = ROOM;
 }
@@ -31,10 +31,10 @@ string Room::Look() const
 	return result;
 }
 
-Exit* Room::GetExit(const string& direction) const
-{
-	//TODO
-	return NULL;
-}
+//Exit* Room::GetExit(const string& direction) const
+//{
+//	//TODO
+//	return NULL;
+//}
 
 

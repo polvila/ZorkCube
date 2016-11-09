@@ -17,7 +17,7 @@ public:
 	~World();
 
 	string EntryMessage();
-	void Check(string& input);
+	void Process(string& input);
 
 
 private:

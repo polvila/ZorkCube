@@ -10,7 +10,7 @@ class Exit;
 class Room : public Entity
 {
 public:
-	Room(const string& name, const string& description);
+	Room(const string& name, const string& description, const string& color);
 	~Room();
 
 	string Look() const;
@@ -18,7 +18,9 @@ public:
 
 public:
 	
-	Exit* GetExit(const string& direction) const;
+	/*Exit* GetExit(const string& direction) const;*/
+	
+	const string color;
 
 };
 
