@@ -34,19 +34,23 @@ string Player::GoTo(const string& direction)
 
 string Player::TryToGoThrowThat(Exit* exit) 
 {
-	if (exit->blocked)
-		return string("This exit is blocked.\n\n");
-	else
+	string answer;
+	if(exit->destination->name != "EXIT")
 	{
-		string answer;
 		cout << "This tunnel has some written numbers (" + exit->destination->name + ") and leads to a " + exit->destination->color + " room."
 			+ " Are you sure to go through this tunnel? (yes/no)\n\n";
 		getline(cin, answer);
 		if(answer == "yes")
 		{
-			this->location = exit->destination;
-			return this->Look();
+			return ChangePlayerLocationAndLook(exit->destination);
 		}
 		return string("You are still in the same room.\n\n");
 	}
+	return ChangePlayerLocationAndLook(exit->destination);
+}
+
+string Player::ChangePlayerLocationAndLook(Room* destination)
+{
+	this->location = destination;
+	return this->Look();
 }

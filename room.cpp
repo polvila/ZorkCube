@@ -14,20 +14,23 @@ Room::~Room()
 string Room::Look() const
 {
 	string result = "", items = "", exits = "";
-	result = 
+	result =
 		name + "\n"
-		+ description + "\n"
-		+ "Items:\n";
-	
-	for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+		+ description + "\n";
+	if(!container.empty())
 	{
-		if ((*it)->type == ITEM)
-			items += (*it)->Look();
-		if( (*it)->type == EXIT )
-			exits += (*it)->Look();
-	}
+		result += "Items:\n";
+	
+		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+		{
+			if ((*it)->type == ITEM)
+				items += (*it)->Look();
+			if( (*it)->type == EXIT )
+				exits += (*it)->Look();
+		}
 
-	result += items + "Exits:\n" + exits;
+		result += items + "Exits:\n" + exits;
+	}
 	return result;
 }
 

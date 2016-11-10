@@ -22,6 +22,7 @@ public:
 private:
 	
 	string TryToGoThrowThat(Exit* exit);
+	string ChangePlayerLocationAndLook(Room* destination);
 
 };
 

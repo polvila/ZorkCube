@@ -1,8 +1,8 @@
 #include <iostream>
 #include "exit.h"
 
-Exit::Exit(const string& name, const string& description, Room* destination,  bool blocked) :
-	Entity(name,description), destination(destination), blocked(blocked)
+Exit::Exit(const string& name, const string& description, Room* destination) :
+	Entity(name,description), destination(destination)
 {
 	type = EXIT;
 }
@@ -13,6 +13,6 @@ Exit::~Exit()
 
 string Exit::Look() const
 {
-	return "\t" + name + "\n\t" + description + "\n";
+	return "\t" + name + "\n\t" + description + " " + destination->name + "\n";
 
 }

@@ -17,7 +17,7 @@
 class Exit : public Entity
 {
 public:
-	Exit(const string& name, const string& description, Room* destination, bool blocked = false);
+	Exit(const string& name, const string& description, Room* destination);
 	~Exit();
 
 	string Look() const;
@@ -25,7 +25,6 @@ public:
 public:
 	
 	Room* destination; 
-	bool blocked;
 
 };
 
