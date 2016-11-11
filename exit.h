@@ -20,7 +20,7 @@ public:
 	Exit(const string& name, const string& description, Room* destination);
 	~Exit();
 
-	string Look() const;
+	void Look() const;
 
 public:
 	

@@ -12,17 +12,17 @@ public:
 	Player(const string& name, const string& description, Room* location);
 	~Player();
 
-	string Look() const;
-	string GoTo(const string& direction);
+	void Look() const;
+	void GoTo(const string& direction);
 
 public:
 
 	Room* location;
 	
 private:
-	
-	string TryToGoThrowThat(Exit* exit);
-	string ChangePlayerLocationAndLook(Room* destination);
+
+	void TryToGoThrowThat(Exit* exit);
+	void ChangePlayerLocationAndLook(Room* destination);
 
 };
 

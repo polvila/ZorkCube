@@ -13,7 +13,7 @@ public:
 	Room(const string& name, const string& description, const string& color);
 	~Room();
 
-	string Look() const;
+	void Look() const;
 	
 
 public:

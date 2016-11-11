@@ -4,6 +4,7 @@
 #include "item.h"
 #include "exit.h"
 #include "world.h"
+#include "globals.h"
 
 World::World()
 {
@@ -20,11 +21,11 @@ World::World()
 
 	//-----------EXITS ROOM A-------------
 
-	Exit* exitAC = new Exit("south",
+	Exit* exitAC = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomC);
-	Exit* exitAD = new Exit("east",
+	Exit* exitAD = new Exit("East",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomD);
-	Exit* exitAI = new Exit("up",
+	Exit* exitAI = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomI);
 
 	roomA->Add(exitAC);
@@ -33,15 +34,15 @@ World::World()
 
 	//-----------EXITS ROOM B-------------
 
-	Exit* exitBC1 = new Exit("south",
+	Exit* exitBC1 = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomC);
-	Exit* exitBD = new Exit("east",
+	Exit* exitBD = new Exit("East",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomD);
-	Exit* exitBC2 = new Exit("down",
+	Exit* exitBC2 = new Exit("Down",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomC);
-	Exit* exitBG = new Exit("up",
+	Exit* exitBG = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomG);
-	Exit* exitBA = new Exit("north",
+	Exit* exitBA = new Exit("North",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomA);
 
 	roomB->Add(exitBC1);
@@ -52,11 +53,11 @@ World::World()
 
 	//-----------EXITS ROOM C-------------
 
-	Exit* exitCA = new Exit( "north", 
+	Exit* exitCA = new Exit( "North", 
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomA);
-	Exit* exitCE = new Exit( "east", 
+	Exit* exitCE = new Exit( "East", 
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomE);
-	Exit* exitCB = new Exit("up",
+	Exit* exitCB = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomB);
 
 	roomC->Add(exitCA);
@@ -65,15 +66,15 @@ World::World()
 
 	//-----------EXITS ROOM D-------------
 
-	Exit* exitDA = new Exit("west",
+	Exit* exitDA = new Exit("West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomA);
-	Exit* exitDB = new Exit("up",
+	Exit* exitDB = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomB);
-	Exit* exitDI = new Exit("north",
+	Exit* exitDI = new Exit("North",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomI);
-	Exit* exitDF = new Exit("east",
+	Exit* exitDF = new Exit("East",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomF);
-	Exit* exitDC = new Exit("south",
+	Exit* exitDC = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomC);
 
 	roomD->Add(exitDA);
@@ -84,11 +85,11 @@ World::World()
 
 	//-----------EXITS ROOM E-------------
 
-	Exit* exitEC = new Exit( "west",
+	Exit* exitEC = new Exit( "West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomC);
-	Exit* exitEF = new Exit("up",
+	Exit* exitEF = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomF);
-	Exit* exitED = new Exit("north",
+	Exit* exitED = new Exit("North",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomD);
 
 	roomE->Add(exitEC);
@@ -97,15 +98,15 @@ World::World()
 
 	//-----------EXITS ROOM F-------------
 
-	Exit* exitFG1 = new Exit("up",
+	Exit* exitFG1 = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomG);
-	Exit* exitFG2 = new Exit("west",
+	Exit* exitFG2 = new Exit("West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomG);
-	Exit* exitFE1 = new Exit("south",
+	Exit* exitFE1 = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomE);
-	Exit* exitFE2 = new Exit("down",
+	Exit* exitFE2 = new Exit("Down",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomE);
-	Exit* exitFH = new Exit("north",
+	Exit* exitFH = new Exit("North",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomH);
 
 	roomF->Add(exitFG1);
@@ -116,15 +117,15 @@ World::World()
 
 	//-----------EXITS ROOM G-------------
 
-	Exit* exitGI = new Exit("north",
+	Exit* exitGI = new Exit("North",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomI);
-	Exit* exitGH = new Exit("east",
+	Exit* exitGH = new Exit("East",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomH);
-	Exit* exitGF = new Exit("down",
+	Exit* exitGF = new Exit("Down",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomF);
-	Exit* exitGE = new Exit("south",
+	Exit* exitGE = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomE);
-	Exit* exitGB = new Exit("west",
+	Exit* exitGB = new Exit("West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomB);
 
 	roomG->Add(exitGI);
@@ -135,13 +136,13 @@ World::World()
 
 	//-----------EXITS ROOM H-------------
 
-	Exit* exitHI = new Exit("down",
+	Exit* exitHI = new Exit("Down",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomI);
-	Exit* exitHF = new Exit("south",
+	Exit* exitHF = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomF);
-	Exit* exitHG = new Exit("west",
+	Exit* exitHG = new Exit("West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomG);
-	Exit* exitH = new Exit("east",
+	Exit* exitH = new Exit("East",
 		"Tunnel narrow leads to the white light, there are no longer written numbers! It is the", roomEND);
 
 	roomH->Add(exitHI);
@@ -151,15 +152,15 @@ World::World()
 
 	//-----------EXITS ROOM I-------------
 
-	Exit* exitIH1 = new Exit("up",
+	Exit* exitIH1 = new Exit("Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomH);
-	Exit* exitIH2 = new Exit("east",
+	Exit* exitIH2 = new Exit("East",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomH);
-	Exit* exitIA = new Exit("down",
+	Exit* exitIA = new Exit("Down",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomA);
-	Exit* exitID = new Exit("south",
+	Exit* exitID = new Exit("South",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomD);
-	Exit* exitIB = new Exit("west",
+	Exit* exitIB = new Exit("West",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomB);
 
 	roomI->Add(exitIH1);
@@ -204,39 +205,28 @@ string World::EntryMessage()
 	return "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
 }
 
-void World::Process(string& input)
-{
-	vector<string> args = Split(input, " ");
-	
+bool World::Process(vector<string> args) const
+{	
 	if(args.size() == 1)
 	{
 		if (args[0] == "look")
 		{
-			cout << player->Look();
+			player->Look();
+			return true;
 		}
-		
+			
 	}else if(args.size() == 2)
 	{
-		if (args[0] == "goto")
-			cout << player->GoTo(args[1]);
+		if (args[0] == "goto" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west" || args[1] == "up" || args[1] == "down"))
+		{
+			player->GoTo(args[1]);
+			return true;
+		}
 	}
+	return false;
 
 	//for (std::vector<string>::const_iterator i = args.begin(); i != args.end(); ++i)
 	//	cout << *i << "...";
 	//cout << args.size() << endl;
 }
 
-vector<string> World::Split(string& command, const string& delimiter)
-{
-	vector<string> args;
-	size_t pos = 0;
-	string token;
-	while ((pos = command.find(delimiter)) != string::npos) {
-		token = command.substr(0, pos);
-		if(token != "")
-			args.push_back(token);
-		command.erase(0, pos + delimiter.length());
-	}
-	args.push_back(command);
-	return args;
-}

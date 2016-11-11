@@ -2,6 +2,7 @@
 #include <string>
 #include <conio.h>
 #include "world.h"
+#include "globals.h"
 
 using namespace std;
 
@@ -17,8 +18,14 @@ int main()
 	{
 		if (_kbhit() != 0) {
 			getline(cin, input);
-			theCube.Process(input);
+			vector<string> args = Split(ToLowerCase(input), " ");
+			if(args[0] == "quit")
+				break;
+			if (!theCube.Process(args))
+				cout << "That's not a verb I recognise.\n";
 		}
 
 	}
+
+
 }

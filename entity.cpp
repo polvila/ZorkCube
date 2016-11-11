@@ -11,9 +11,9 @@ Entity::~Entity()
 {
 }
 
-string Entity::Look() const
+void Entity::Look() const
 {
-	return name + "\n" + description + "\n";
+	cout << name + "\n" + description + "\n";
 }
 
 void Entity::Update()

@@ -11,27 +11,25 @@ Room::~Room()
 {
 }
 
-string Room::Look() const
+void Room::Look() const
 {
-	string result = "", items = "", exits = "";
-	result =
-		name + "\n"
-		+ description + "\n";
+	cout << name << "\n" << description << "\n";
 	if(!container.empty())
 	{
-		result += "Items:\n";
-	
+		cout << "Items:\n";
 		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 		{
 			if ((*it)->type == ITEM)
-				items += (*it)->Look();
-			if( (*it)->type == EXIT )
-				exits += (*it)->Look();
+				(*it)->Look();
 		}
 
-		result += items + "Exits:\n" + exits;
+		cout << "Exits:\n";
+		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+		{
+			if ((*it)->type == EXIT)
+				(*it)->Look();
+		}
 	}
-	return result;
 }
 
 //Exit* Room::GetExit(const string& direction) const

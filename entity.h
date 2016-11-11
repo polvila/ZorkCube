@@ -21,7 +21,7 @@ public:
 	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
-	virtual string Look() const;
+	virtual void Look() const;
 	virtual void Update();
 
 	void Add(Entity* entity);

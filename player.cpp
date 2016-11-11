@@ -1,6 +1,7 @@
 #include <iostream>
 #include "exit.h"
 #include "player.h"
+#include "globals.h"
 
 
 Player::Player(const string& name, const string& description, Room* location) :
@@ -13,44 +14,44 @@ Player::~Player()
 {
 }
 
-string Player::Look() const
+void Player::Look() const
 {
-	return location->Look() + "\n";
+	location->Look();
 }
 
-string Player::GoTo(const string& direction)
+void Player::GoTo(const string& direction)
 {	
 	for (list<Entity*>::const_iterator it = location->container.cbegin(); it != location->container.cend(); ++it)
 	{
 		if( (*it)->type == EXIT )
 		{
-			Exit* exit = (Exit*)(*it);
-			if (exit->name == direction)
-				return TryToGoThrowThat(exit);
+			Exit* exit = static_cast<Exit*>(*it);
+			if (ToLowerCase(exit->name) == direction)
+				TryToGoThrowThat(exit);
 		}
 	}
-	return string("This exit is blocked.\n\n");
+	cout << "This exit is blocked.\n\n";
 }
 
-string Player::TryToGoThrowThat(Exit* exit) 
+void Player::TryToGoThrowThat(Exit* exit) 
 {
 	string answer;
 	if(exit->destination->name != "EXIT")
 	{
-		cout << "This tunnel has some written numbers (" + exit->destination->name + ") and leads to a " + exit->destination->color + " room."
-			+ " Are you sure to go through this tunnel? (yes/no)\n\n";
+		cout << "This tunnel has some written numbers (" << exit->destination->name << ") and leads to a " << exit->destination->color << " room."
+			<< " Are you sure to go through this tunnel? (yes/no)\n\n";
 		getline(cin, answer);
 		if(answer == "yes")
 		{
-			return ChangePlayerLocationAndLook(exit->destination);
+			ChangePlayerLocationAndLook(exit->destination);
 		}
-		return string("You are still in the same room.\n\n");
+		cout << "You are still in the same room.\n\n";
 	}
-	return ChangePlayerLocationAndLook(exit->destination);
+	ChangePlayerLocationAndLook(exit->destination);
 }
 
-string Player::ChangePlayerLocationAndLook(Room* destination)
+void Player::ChangePlayerLocationAndLook(Room* destination)
 {
 	this->location = destination;
-	return this->Look();
+	this->Look();
 }

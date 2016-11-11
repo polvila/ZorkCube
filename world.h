@@ -16,14 +16,13 @@ public:
 	World();
 	~World();
 
-	string EntryMessage();
-	void Process(string& input);
+	static string EntryMessage();
+	bool Process(vector<string> input) const;
 
 
 private:
 
 	void Add(Entity* entity);
-	vector<string> Split(string& command, const string& delimiter);
 
 	vector<Entity*> entities;
 	Player* player;

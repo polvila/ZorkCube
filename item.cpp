@@ -11,7 +11,7 @@ Item::~Item()
 {
 }
 
-string Item::Look() const
+void Item::Look() const
 {
-	return "\t" + name + "\n\t" + description + "\n";
+	cout << "\t" << name << "\n\t" << description << "\n";
 }
