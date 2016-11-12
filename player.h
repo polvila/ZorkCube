@@ -14,6 +14,8 @@ public:
 
 	void Look() const;
 	void GoTo(const string& direction);
+	void Take(const string& object);
+	void ShowInventory();
 
 public:
 

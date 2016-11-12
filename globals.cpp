@@ -3,7 +3,7 @@
 
 using namespace std;
 
-string ToLowerCase(string sentence)
+string GetLowerCase(string sentence)
 {
 	for (string::iterator it = sentence.begin(); it < sentence.end(); ++it)
 	{

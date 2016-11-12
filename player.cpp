@@ -17,6 +17,7 @@ Player::~Player()
 void Player::Look() const
 {
 	location->Look();
+	cout << "\n";
 }
 
 void Player::GoTo(const string& direction)
@@ -27,7 +28,7 @@ void Player::GoTo(const string& direction)
 		if( (*it)->type == EXIT )
 		{
 			Exit* exit = (Exit*)(*it);
-			if (ToLowerCase(exit->name) == direction)
+			if (GetLowerCase(exit->name) == direction)
 			{
 				TryToGoThrowThat(exit);
 				exitExists = true;
@@ -36,6 +37,36 @@ void Player::GoTo(const string& direction)
 		}
 	}
 	if(!exitExists) cout << "This exit is blocked.\n\n";
+}
+
+void Player::Take(const string& object)
+{
+	for (list<Entity*>::iterator it = location->container.begin(); it != location->container.end(); ++it)
+	{
+		if ((*it)->type == ITEM && GetLowerCase((*it)->name) == object)
+		{
+			Add(*it);
+			cout << "The item " << (*it)->name << " has been added to your inventory.\n\n";
+			location->container.remove(*it);
+			break;
+		}
+	}
+}
+
+void Player::ShowInventory()
+{
+	if(container.empty())
+		cout << "You are empty handed.\n\n";
+	else
+	{
+		cout << "You are carrying:\n";
+		for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
+		{
+			(*it)->Look();
+		}
+		cout << "\n";
+	}
+	
 }
 
 void Player::TryToGoThrowThat(Exit* exit) 

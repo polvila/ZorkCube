@@ -216,6 +216,10 @@ bool World::Process(vector<string> args) const
 		{
 			player->Look();
 			return true;
+		}else if(args[0] == "inventory")
+		{
+			player->ShowInventory();
+			return true;
 		}
 			
 	}else if(args.size() == 2)
@@ -223,6 +227,10 @@ bool World::Process(vector<string> args) const
 		if (args[0] == "goto" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west" || args[1] == "up" || args[1] == "down"))
 		{
 			player->GoTo(args[1]);
+			return true;
+		}else if(args[0] == "take")
+		{
+			player->Take(args[1]);
 			return true;
 		}
 	}
