@@ -4,16 +4,6 @@
 #include "room.h"
 #include "entity.h"
 
-//enum Direction
-//{
-//	NORTH,
-//	EAST,
-//	WEST,
-//	SOUTH,
-//	UP,
-//	DOWN
-//};
-
 class Exit : public Entity
 {
 public:

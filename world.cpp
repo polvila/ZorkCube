@@ -227,9 +227,5 @@ bool World::Process(vector<string> args) const
 		}
 	}
 	return false;
-
-	//for (std::vector<string>::const_iterator i = args.begin(); i != args.end(); ++i)
-	//	cout << *i << "...";
-	//cout << args.size() << endl;
 }
 

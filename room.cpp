@@ -32,11 +32,3 @@ void Room::Look() const
 		}
 	}
 }
-
-//Exit* Room::GetExit(const string& direction) const
-//{
-//	//TODO
-//	return NULL;
-//}
-
-

@@ -17,8 +17,6 @@ public:
 
 public:
 	
-	/*Exit* GetExit(const string& direction) const;*/
-	
 	const string color;
 
 };
