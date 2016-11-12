@@ -57,7 +57,7 @@ World::World()
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomA);
 	Exit* exitCE = new Exit( "East", 
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomE);
-	Exit* exitCB = new Exit("Up",
+	Exit* exitCB = new Exit( "Up",
 		"Tunnel narrow leads to another room, nine numbers are written in the middle of the tunnel...", roomB);
 
 	roomC->Add(exitCA);
@@ -185,6 +185,8 @@ World::World()
 	this->Add(roomI);
 	this->Add(roomEND);
 	this->Add(player);
+
+	EntryMessage();
 }
 
 World::~World()
@@ -200,9 +202,10 @@ void World::Add(Entity* entity)
 	entities.push_back(entity);
 }
 
-string World::EntryMessage()
+void World::EntryMessage() const
 {
-	return "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
+	cout << "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
+	player->Look();
 }
 
 bool World::Process(vector<string> args) const

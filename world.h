@@ -16,12 +16,11 @@ public:
 	World();
 	~World();
 
-	static string EntryMessage();
 	bool Process(vector<string> input) const;
-
 
 private:
 
+	void EntryMessage() const;
 	void Add(Entity* entity);
 
 	vector<Entity*> entities;

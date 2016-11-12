@@ -12,9 +12,7 @@ int main()
 	
 	World theCube;
 
-	cout << theCube.EntryMessage();
-
-	while(1)
+	while(true)
 	{
 		if (_kbhit() != 0) {
 			getline(cin, input);
@@ -22,7 +20,7 @@ int main()
 			if(args[0] == "quit")
 				break;
 			if (!theCube.Process(args))
-				cout << "That's not a verb I recognise.\n";
+				cout << "That's not a verb I recognise.\n\n";
 		}
 
 	}

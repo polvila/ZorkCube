@@ -13,11 +13,6 @@ string ToLowerCase(string sentence)
 	return sentence;
 }
 
-void ToBold(string& sentence)
-{
-	sentence = "\e[1m" + sentence + "\e[0m";
-}
-
 vector<string> Split(string& sentence, const string& delimiter)
 {
 	vector<string> args;

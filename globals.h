@@ -5,7 +5,6 @@
 using namespace std;
 
 string ToLowerCase(string sentence);
-void ToBold(string& sentence);
 vector<string> Split(string& command, const string& delimiter);
 
 

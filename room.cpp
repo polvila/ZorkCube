@@ -1,5 +1,6 @@
 #include <iostream>
 #include "room.h"
+#include "globals.h"
 
 Room::Room(const string& name, const string& description, const string& color) :
 	Entity(name, description), color(color)
