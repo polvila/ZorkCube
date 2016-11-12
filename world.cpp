@@ -232,7 +232,12 @@ bool World::Process(vector<string> args) const
 		{
 			player->Take(args[1]);
 			return true;
+		}else if(args[0] == "drop")
+		{
+			player->Drop(args[1]);
+			return true;
 		}
+
 	}
 	return false;
 }
