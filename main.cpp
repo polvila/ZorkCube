@@ -16,7 +16,7 @@ int main()
 	{
 		if (_kbhit() != 0) {
 			getline(cin, input);
-			vector<string> args = Split(ToLowerCase(input), " ");
+			vector<string> args = Split(GetLowerCase(input), " ");
 			if(args[0] == "quit")
 				break;
 			if (!theCube.Process(args))

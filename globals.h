@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string ToLowerCase(string sentence);
+string GetLowerCase(string sentence);
 vector<string> Split(string& command, const string& delimiter);
 
 
