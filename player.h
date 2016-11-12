@@ -17,6 +17,7 @@ public:
 	void Take(const string& object);
 	void ShowInventory();
 	void Drop(const string& object);
+	void PutInside(const string& object, const string& container);
 
 public:
 

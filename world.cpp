@@ -170,7 +170,9 @@ World::World()
 	roomI->Add(exitIB);
 	
 	Item* boots = new Item("Boots", "A few commonly used boots.");
+	Item* bag = new Item("Bag", "A bag that can contain other items.", CONTAINER);
 	roomC->Add(boots);
+	roomC->Add(bag);
 
 	player = new Player("Human", "You do not know how you got here.", roomC);
 
@@ -237,7 +239,13 @@ bool World::Process(vector<string> args) const
 			player->Drop(args[1]);
 			return true;
 		}
-
+	}else if(args.size() == 4)
+	{
+		if (args[0] == "put" && args[2] == "inside")
+		{
+			player->PutInside(args[1], args[3]);
+			return true;
+		}
 	}
 	return false;
 }

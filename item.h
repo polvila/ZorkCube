@@ -7,6 +7,7 @@ enum ItemType
 {
 	COMMON,
 	EQUIPABLE,
+	CONTAINER,
 	CONSUMABLE
 };
 

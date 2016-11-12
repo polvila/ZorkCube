@@ -2,6 +2,7 @@
 #include "exit.h"
 #include "player.h"
 #include "globals.h"
+#include "item.h"
 
 
 Player::Player(const string& name, const string& description, Room* location) :
@@ -79,6 +80,34 @@ void Player::Drop(const string& object)
 			container.remove(*it);
 			break;
 		}
+	}
+}
+
+void Player::PutInside(const string& object, const string& objContainer)
+{
+	for (list<Entity*>::iterator objectItem = container.begin(); objectItem != container.end(); ++objectItem)
+	{
+		if(GetLowerCase((*objectItem)->name) == object)
+		{
+			list<Entity*> inventoryAndRoomContainer;
+			inventoryAndRoomContainer = container;
+			inventoryAndRoomContainer.insert(inventoryAndRoomContainer.end(), location->container.begin(), location->container.end());
+
+			for (list<Entity*>::iterator objectContainer = inventoryAndRoomContainer.begin(); objectContainer != inventoryAndRoomContainer.end(); ++objectContainer)
+			{
+				if(GetLowerCase((*objectContainer)->name) == objContainer && (*objectContainer)->type == ITEM)
+				{
+					if ((static_cast<Item*>(*objectContainer))->item_type == CONTAINER)
+					{
+						(*objectContainer)->Add(*objectItem);
+						cout << "The item " << (*objectItem)->name << " has been placed inside the " << (*objectContainer)->name << ".\n\n";
+						container.remove(*objectItem);
+						break;
+					}
+				}	
+			}
+		}
+		break;
 	}
 }
 
