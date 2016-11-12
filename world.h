@@ -2,10 +2,12 @@
 #define __World__
 
 #include <list>
+#include <vector>
 
 using namespace std;
 
 class Entity;
+class Player;
 
 class World
 {
@@ -14,9 +16,15 @@ public:
 	World();
 	~World();
 
+	bool Process(vector<string> input) const;
+
 private:
 
-	list<Entity*> entities;
+	void EntryMessage() const;
+	void Add(Entity* entity);
+
+	vector<Entity*> entities;
+	Player* player;
 
 };
 

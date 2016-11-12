@@ -1,21 +1,21 @@
 #ifndef __Exit__
 #define __Exit__
 
+#include "room.h"
 #include "entity.h"
 
 class Exit : public Entity
 {
 public:
-	Exit(const char* name, const char* opposite_name, const char* description, Room* origin, Room* destination, bool blocked = false);
+	Exit(const string& name, const string& description, Room* destination);
 	~Exit();
 
-	const string& GetNameFrom(const Room* room) const;
-	Room* GetDestinationFrom(const Room* room) const;
+	void Look() const;
 
 public:
-	bool blocked;
-	string opposite_name;
-	Room* destination;
+	
+	Room* destination; 
+
 };
 
 #endif //__Exit__

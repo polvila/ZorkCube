@@ -1,7 +1,7 @@
 #ifndef __Room__
 #define __Room__
 
-#include <string>
+#include <vector>
 #include "entity.h"
 
 class Exit;
@@ -9,12 +9,16 @@ class Exit;
 class Room : public Entity
 {
 public:
-	Room(const char* name, const char* description);
+	Room(const string& name, const string& description, const string& color);
 	~Room();
 
-	Exit* GetExit(const string& direction) const;
+	void Look() const;
+	
 
 public:
+	
+	const string color;
+
 };
 
 #endif //__Room__

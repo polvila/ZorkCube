@@ -1,15 +1,28 @@
 #ifndef __Player__
 #define __Player__
 
-#include "creature.h"
+#include "room.h"
+#include "entity.h"
 
-class Player : public Creature
+using namespace std;
+
+class Player : public Entity
 {
 public:
-	Player(const char* name, const char* description, Room* room);
+	Player(const string& name, const string& description, Room* location);
 	~Player();
 
+	void Look() const;
+	void GoTo(const string& direction);
+
 public:
+
+	Room* location;
+	
+private:
+
+	void TryToGoThrowThat(Exit* exit);
+	void ChangePlayerLocationAndLook(Room* destination);
 
 };
 
