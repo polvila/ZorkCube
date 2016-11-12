@@ -66,7 +66,20 @@ void Player::ShowInventory()
 		}
 		cout << "\n";
 	}
-	
+}
+
+void Player::Drop(const string& object)
+{
+	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
+	{
+		if (GetLowerCase((*it)->name) == object)
+		{
+			location->Add(*it);
+			cout << "The item " << (*it)->name << " has been dropped into the room.\n\n";
+			container.remove(*it);
+			break;
+		}
+	}
 }
 
 void Player::TryToGoThrowThat(Exit* exit) 

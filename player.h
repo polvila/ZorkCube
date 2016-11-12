@@ -16,6 +16,7 @@ public:
 	void GoTo(const string& direction);
 	void Take(const string& object);
 	void ShowInventory();
+	void Drop(const string& object);
 
 public:
 
