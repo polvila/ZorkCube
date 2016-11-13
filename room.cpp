@@ -85,10 +85,7 @@ void Room::ChangeExitDestinations(vector<Room*> roomChanges) const
 	{
 		if ((*it)->type == EXIT)
 		{
-			//Room* room = static_cast<Exit*>(*it)->destination;
-			//cout << room->name << "\n";
 			static_cast<Exit*>(*it)->destination = GetRoomNextPosition(roomChanges, static_cast<Exit*>(*it)->destination);
-			//cout << room->name << "\n\n";
 		}
 	}
 }
@@ -100,9 +97,7 @@ Room* Room::GetRoomNextPosition(vector<Room*> roomChanges, Room* destination)
 		if (destination == roomChanges[i])
 		{
 			i = ((i / 3) * 3) + ((i + 2) % 3);
-			//cout << destination->name << "\n";
 			destination = roomChanges[i];
-			//cout << destination->name << "\n\n";
 		}
 	}
 	return destination;
