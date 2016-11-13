@@ -219,6 +219,30 @@ bool Player::IncreaseHungry(int percentage)
 		hungry += percentage;
 		return false;
 	}
-	hungry == 100;
+	hungry = 100;
 	return true;
+}
+
+void Player::Open(const string& object)
+{
+	list<Entity*> inventoryAndRoomContainer;
+	inventoryAndRoomContainer = container;
+	inventoryAndRoomContainer.insert(inventoryAndRoomContainer.end(), location->container.begin(), location->container.end());
+	for (list<Entity*>::iterator it = inventoryAndRoomContainer.begin(); it != inventoryAndRoomContainer.end(); ++it)
+	{
+		if((*it)->type == ITEM)
+		{
+			if (static_cast<Item*>(*it)->item_type == CONTAINER)
+			{
+				if(!(*it)->container.empty())
+				{
+					this->container.insert(this->container.end(), (*it)->container.begin(), (*it)->container.end());
+					(*it)->container.clear();
+					cout << "The items in the " << (*it)->name << " have been added to your inventory.\n\n";
+				}
+				else
+					cout << "The item " << (*it)->name << " is empty.\n\n";
+			}
+		}
+	}
 }

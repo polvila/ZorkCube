@@ -25,7 +25,7 @@ public:
 	void IncreaseHealth(int percentage);
 	void DecreaseHungry(int percentage);
 	bool IncreaseHungry(int percentage);
-
+	void Open(const string& object);
 public:
 
 	Room* location;
