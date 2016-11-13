@@ -6,7 +6,8 @@
 #include <map>
 #include <time.h>
 
-#define TICK_FREQUENCY 60.0f
+#define ROOM_CHANGE_FREQUENCY 60.0f
+#define ROOM_TRAP_FREQUENCY 15.0f
 
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
 	~World();
 
 	bool Process(vector<string> input);
-	void GameLoop();
+	bool GameLoop();
 
 private:
 

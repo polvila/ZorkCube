@@ -9,6 +9,8 @@ Player::Player(const string& name, const string& description, Room* location) :
 	Entity(name, description), location(location)
 {
 	type = PLAYER;
+	health = 60;
+	hungry = 50;
 }
 
 Player::~Player()
@@ -111,10 +113,58 @@ void Player::PutInside(const string& object, const string& objContainer)
 	}
 }
 
+bool Player::HasThisItem(const string& object)
+{
+	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
+	{
+		if ((*it)->type == ITEM && GetLowerCase((*it)->name) == object)
+			return true;
+	}
+	return false;
+}
+
+void Player::ShowStatus() const
+{
+	cout << "Health: " << health << "%\n";
+	cout << "Hungry: " << hungry << "%\n\n";
+}
+
+void Player::Use(const string& object)
+{
+	bool objExists = false, isConsumable = false;
+	for (list<Entity*>::iterator it = container.begin(); it != container.end();)
+	{
+		if ((*it)->type == ITEM && GetLowerCase((*it)->name) == object)
+		{
+			objExists = true;
+			Item* item = static_cast<Item*>(*it);
+			if (item->item_type == HEALTH)
+			{
+				isConsumable = true;
+				IncreaseHealth(item->percentage);
+				cout << "After using the item " << item->name << " you have achieved +" << item->percentage << "% of health.\n\n";
+				it = container.erase(it);
+			}else if (item->item_type == HUNGRY)
+			{
+				isConsumable = true;
+				DecreaseHungry(item->percentage);
+				cout << "After using the item " << item->name << " you have achieved -" << item->percentage << "% of hungry.\n\n";
+				it = container.erase(it);
+			}
+			else
+				++it;
+		}
+	}
+	if (!objExists)
+		cout << "You do not have the item " << object << " in your inventory.\n\n";
+	else if (!isConsumable)
+		cout << "You can not consume the item " << object << ".\n\n";
+}
+
 void Player::TryToGoThrowThat(Exit* exit) 
 {
 	string answer;
-	if(exit->destination->name != "EXIT")
+	if(exit->destination->name != "EXIT!")
 	{
 		cout << "This tunnel has some written numbers (" << exit->destination->name << ") and leads to a " << exit->destination->color << " room."
 			<< " Are you sure to go through this tunnel? (yes/no)\n\n";
@@ -133,4 +183,42 @@ void Player::ChangePlayerLocationAndLook(Room* destination)
 {
 	this->location = destination;
 	this->Look();
+}
+
+bool Player::DecreaseHealth(int percentage)
+{
+	if (health > percentage)
+	{
+		health -= percentage;
+		return false;
+	}
+	health = 0;
+	return true;
+}
+
+void Player::IncreaseHealth(int percentage)
+{
+	if (100 < health + percentage)
+		health = 100;
+	else
+		health += percentage;
+}
+
+void Player::DecreaseHungry(int percentage)
+{
+	if (0 > hungry - percentage)
+		hungry = 0;
+	else
+		hungry -= percentage;
+}
+
+bool Player::IncreaseHungry(int percentage)
+{
+	if (hungry + percentage < 100)
+	{
+		hungry += percentage;
+		return false;
+	}
+	hungry == 100;
+	return true;
 }
