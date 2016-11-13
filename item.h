@@ -8,19 +8,21 @@ enum ItemType
 	COMMON,
 	EQUIPABLE,
 	CONTAINER,
-	CONSUMABLE
+	HEALTH,
+	HUNGRY
 };
 
 class Item : public Entity
 {
 public:
-	Item(const string& name, const string& description, ItemType item_type = COMMON);
+	Item(const string& name, const string& description, ItemType item_type = COMMON, int percentage = 0);
 	~Item();
 
 	void Look() const;
 
 public:
 	ItemType item_type;
+	int percentage;
 };
 
 #endif //__Item__

@@ -10,6 +10,7 @@ enum EntityType
 {
 	ENTITY,
 	ROOM,
+	ROOM_WITH_TRAP,
 	EXIT,
 	ITEM,
 	PLAYER

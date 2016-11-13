@@ -18,15 +18,27 @@ public:
 	void ShowInventory();
 	void Drop(const string& object);
 	void PutInside(const string& object, const string& container);
+	bool HasThisItem(const string& object);
+	void ShowStatus() const;
+	void Use(const string& object);
+	bool DecreaseHealth(int percentage);
+	void IncreaseHealth(int percentage);
+	void DecreaseHungry(int percentage);
+	bool IncreaseHungry(int percentage);
 
 public:
 
 	Room* location;
+	int health;
+	int hungry;
 	
 private:
 
 	void TryToGoThrowThat(Exit* exit);
 	void ChangePlayerLocationAndLook(Room* destination);
+	
+
+	
 
 };
 

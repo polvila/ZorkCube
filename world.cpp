@@ -5,21 +5,27 @@
 #include "exit.h"
 #include "world.h"
 #include "globals.h"
+#include "roomWithTrap.h"
 
 World::World()
 {
 	timer = clock();
 
+	Trap* fire = new Trap("The room is filled with fire. (Damage: -100%)", 100);
+	Trap* acid = new Trap("It is raining acid. (Damage: -20%)", 20);
+	Trap* poison = new Trap("You are breathing poison. (Damage: -20%)", 20);
+	Trap* lasers = new Trap("A grid of lasers has chopped you. (Damage: -100%)", 100);
+
 	Room* roomA = new Room("3'21 000 101'(A)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomB = new Room("41'2' 000 21'0(B)", "You are in a cubic GREEN room.", "green");
+	Room* roomB = new RoomWithTrap("41'2' 000 21'0(B)", "You are in a cubic GREEN room.", "green", poison);
 	Room* roomC = new Room("21'1 000 2'11(C)", "You are in a cubic WHITE room.", "white");
 	Room* roomD = new Room("201' 010 2'11(D)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomE = new Room("31'0 41'1' 101'(E)", "You are in a cubic RED room.", "red");
+	Room* roomE = new RoomWithTrap("31'0 41'1' 101'(E)", "You are in a cubic RED room.", "red", fire);
 	Room* roomF = new Room("1'11 101 21'0(F)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomG = new Room("21'0 201' 41'1'(G)", "You are in a cubic GREEN room.", "green");
-	Room* roomH = new Room("2'11 31'0 101(H)", "You are in a cubic RED room.", "red");
-	Room* roomI = new Room("101' 1'11 010(I)", "You are in a cubic WHITE room.", "white");
-	Room* roomEND = new Room("EXIT", "You have found the exit of the big cube, but you do not have anything to do out there. There is only unlimited human stupidity.\nTHE END\n", "white");
+	Room* roomG = new RoomWithTrap("21'0 201' 41'1'(G)", "You are in a cubic GREEN room.", "green", acid);
+	Room* roomH = new RoomWithTrap("2'11 31'0 101(H)", "You are in a cubic RED room.", "red", lasers);
+	Room* roomI = new Room("101' 1'11 010(I)", "You are in a cubic ORANGE room.", "orange");
+	Room* roomEND = new Room("EXIT!", "You have found the exit of the big cube, but you do not have anything to do out there. There is only unlimited human stupidity.\n\nTHE END\n", "white");
 
 	roomA->SetNextPosition(roomB);
 	roomB->SetNextPosition(roomC);
@@ -185,8 +191,14 @@ World::World()
 	
 	Item* boots = new Item("Boots", "A few commonly used boots.");
 	Item* bag = new Item("Bag", "A bag that can contain other items.", CONTAINER);
+	Item* cookies = new Item("Cookies", "Some cookies to remove hunger. (-30%)", HUNGRY, 30);
+	Item* medicalKit = new Item("Kit", "First-aid kit to heal minor injuries. (+40%)", HEALTH, 40);
+	Item* note = new Item("Note", "A note where it says \" 3'==-3 \".");
 	roomC->Add(boots);
 	roomC->Add(bag);
+	roomC->Add(cookies);
+	roomC->Add(medicalKit);
+	roomC->Add(note);
 
 	player = new Player("Human", "You do not know how you got here.", roomC);
 
@@ -230,13 +242,17 @@ bool World::Process(vector<string> args)
 {	
 	if(args.size() == 1)
 	{
-		if (args[0] == "look")
+		if (args[0] == "look" || args[0] == "l")
 		{
 			player->Look();
 			return true;
-		}else if(args[0] == "inventory")
+		}else if(args[0] == "inventory" || args[0] == "i")
 		{
 			player->ShowInventory();
+			return true;
+		}else if(args[0] == "diagnose") 
+		{
+			player->ShowStatus();
 			return true;
 		}
 			
@@ -255,26 +271,55 @@ bool World::Process(vector<string> args)
 			player->Drop(args[1]);
 			return true;
 		}
+		else if (args[0] == "use")
+		{
+			player->Use(args[1]);
+			return true;
+		}
+
 	}else if(args.size() == 4)
 	{
 		if (args[0] == "put" && args[2] == "inside")
 		{
-			player->PutInside(args[1], args[3]);
+			if(player->HasThisItem(args[1]))
+				player->PutInside(args[1], args[3]);
+			else
+				cout << "You do not have the item " << args[1] << " in your inventory.\n\n";
 			return true;
 		}
 	}
 	return false;
 }
 
-void World::GameLoop()
+bool World::GameLoop()
 {
 	clock_t now = clock();
 
-	if ((now - timer) / CLOCKS_PER_SEC > TICK_FREQUENCY)
+	if ((now - timer) / CLOCKS_PER_SEC > ROOM_CHANGE_FREQUENCY)
 	{
 		ChangeRoomsPosition();
 		timer = now;
 	}
+
+	if (player->location->type == ROOM_WITH_TRAP)
+	{
+		RoomWithTrap* roomWithTrap = static_cast<RoomWithTrap*>(player->location);
+		if ((now - timer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
+		{
+			cout << roomWithTrap->trap->description << "\n\n";
+			player->DecreaseHealth(roomWithTrap->trap->damage);
+		}
+		if (player->health == 0)
+		{
+			cout << "You are dead.\nGAME OVER!\n\n";
+			return false;
+		}
+	}
+
+	if (player->location->name == "EXIT!")
+		return false;
+
+	return true;
 }
 
 void World::Add(Entity* entity)
