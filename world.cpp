@@ -8,16 +8,30 @@
 
 World::World()
 {
-	Room* roomA = new Room("3'21 000 101'", "You are in a cubic ORANGE room.", "orange");
-	Room* roomB = new Room("41'2' 000 21'0", "You are in a cubic GREEN room.", "green");
-	Room* roomC = new Room("21'1 000 2'11", "You are in a cubic WHITE room.", "white");
-	Room* roomD = new Room("201' 010 2'11", "You are in a cubic ORANGE room.", "orange");
-	Room* roomE = new Room("31'0 41'1' 101'", "You are in a cubic RED room.", "red");
-	Room* roomF = new Room("1'11 101 21'0", "You are in a cubic ORANGE room.", "orange");
-	Room* roomG = new Room("21'0 201' 41'1'", "You are in a cubic GREEN room.", "green");
-	Room* roomH = new Room("2'11 31'0 101", "You are in a cubic RED room.", "red");
-	Room* roomI = new Room("101' 1'11 010", "You are in a cubic WHITE room.", "white");
+	timer = clock();
+
+	Room* roomA = new Room("3'21 000 101'(A)", "You are in a cubic ORANGE room.", "orange");
+	Room* roomB = new Room("41'2' 000 21'0(B)", "You are in a cubic GREEN room.", "green");
+	Room* roomC = new Room("21'1 000 2'11(C)", "You are in a cubic WHITE room.", "white");
+	Room* roomD = new Room("201' 010 2'11(D)", "You are in a cubic ORANGE room.", "orange");
+	Room* roomE = new Room("31'0 41'1' 101'(E)", "You are in a cubic RED room.", "red");
+	Room* roomF = new Room("1'11 101 21'0(F)", "You are in a cubic ORANGE room.", "orange");
+	Room* roomG = new Room("21'0 201' 41'1'(G)", "You are in a cubic GREEN room.", "green");
+	Room* roomH = new Room("2'11 31'0 101(H)", "You are in a cubic RED room.", "red");
+	Room* roomI = new Room("101' 1'11 010(I)", "You are in a cubic WHITE room.", "white");
 	Room* roomEND = new Room("EXIT", "You have found the exit of the big cube, but you do not have anything to do out there. There is only unlimited human stupidity.\nTHE END\n", "white");
+
+	roomA->SetNextPosition(roomB);
+	roomB->SetNextPosition(roomC);
+	roomC->SetNextPosition(roomA);
+
+	roomD->SetNextPosition(roomE);
+	roomE->SetNextPosition(roomF);
+	roomF->SetNextPosition(roomD);
+
+	roomG->SetNextPosition(roomH);
+	roomH->SetNextPosition(roomI);
+	roomI->SetNextPosition(roomG);
 
 	//-----------EXITS ROOM A-------------
 
@@ -185,8 +199,21 @@ World::World()
 	this->Add(roomG);
 	this->Add(roomH);
 	this->Add(roomI);
-	this->Add(roomEND);
 	this->Add(player);
+
+	roomsChanges.push_back(roomA);
+	roomsChanges.push_back(roomB);
+	roomsChanges.push_back(roomC);
+	roomsChanges.push_back(roomD);
+	roomsChanges.push_back(roomE);
+	roomsChanges.push_back(roomF);
+	roomsChanges.push_back(roomG);
+	roomsChanges.push_back(roomH);
+	roomsChanges.push_back(roomI);
+
+	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+		if ((*it)->type == ROOM)
+			(static_cast<Room*>(*it))->SaveAllExits();
 
 	EntryMessage();
 }
@@ -199,18 +226,7 @@ World::~World()
 	entities.clear();
 }
 
-void World::Add(Entity* entity)
-{
-	entities.push_back(entity);
-}
-
-void World::EntryMessage() const
-{
-	cout << "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
-	player->Look();
-}
-
-bool World::Process(vector<string> args) const
+bool World::Process(vector<string> args)
 {	
 	if(args.size() == 1)
 	{
@@ -250,3 +266,37 @@ bool World::Process(vector<string> args) const
 	return false;
 }
 
+void World::GameLoop()
+{
+	clock_t now = clock();
+
+	if ((now - timer) / CLOCKS_PER_SEC > TICK_FREQUENCY)
+	{
+		ChangeRoomsPosition();
+		timer = now;
+	}
+}
+
+void World::Add(Entity* entity)
+{
+	entities.push_back(entity);
+}
+
+void World::EntryMessage() const
+{
+	cout << "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
+	player->Look();
+}
+
+void World::ChangeRoomsPosition()
+{
+	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+		if ((*it)->type == ROOM)
+			static_cast<Room*>(*it)->GoToNextPosition(roomsChanges);
+
+	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
+		if ((*it)->type == ROOM)
+			static_cast<Room*>(*it)->SaveAllExits();
+
+	cout << "The room is shaking, it seems that the exits have changed.\n\n";
+}
