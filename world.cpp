@@ -189,12 +189,10 @@ World::World()
 	roomI->Add(exitID);
 	roomI->Add(exitIB);
 	
-	Item* boots = new Item("Boots", "A few commonly used boots.");
 	Item* bag = new Item("Bag", "A bag that can contain other items.", CONTAINER);
 	Item* cookies = new Item("Cookies", "Some cookies to remove hunger. (-30%)", HUNGRY, 30);
 	Item* medicalKit = new Item("Kit", "First-aid kit to heal minor injuries. (+40%)", HEALTH, 40);
 	Item* note = new Item("Note", "A note where it says \" 3'==-3 \".");
-	roomC->Add(boots);
 	roomC->Add(bag);
 	roomC->Add(cookies);
 	roomC->Add(medicalKit);
@@ -270,10 +268,14 @@ bool World::Process(vector<string> args)
 		{
 			player->Drop(args[1]);
 			return true;
-		}
-		else if (args[0] == "use")
+		}else if (args[0] == "use")
 		{
 			player->Use(args[1]);
+			return true;
+		}
+		else if (args[0] == "open")
+		{
+			player->Open(args[1]);
 			return true;
 		}
 
