@@ -17,12 +17,13 @@ int main()
 		if (_kbhit() != 0) {
 			getline(cin, input);
 			vector<string> args = Split(GetLowerCase(input), " ");
-			if(args[0] == "quit")
+			if (args[0] == "quit")
 				break;
 			if (!theCube.Process(args))
 				cout << "That's not a verb I recognise.\n\n";
 		}
 
+		theCube.GameLoop();
 	}
 
 

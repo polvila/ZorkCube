@@ -13,11 +13,24 @@ public:
 	~Room();
 
 	void Look() const;
+	void GoToNextPosition(vector<Room*> roomsChange);
+	void SaveAllExits();
+	void SetNextPosition(Room* nextPosition);
 	
 
 public:
 	
 	const string color;
+	list<Entity*> exitsSaved;
+	Room* nextPosition;
+
+
+private:
+
+	void RemoveAllExits();
+	void PutAll(list<Entity*>& exits) const;
+	void ChangeExitDestinations(vector<Room*> roomChanges) const;
+	static Room* GetRoomNextPosition(vector<Room*> roomChanges, Room* destination);
 
 };
 
