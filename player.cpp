@@ -25,7 +25,7 @@ void Player::Look() const
 void Player::GoTo(const string& direction)
 {	
 	bool exitExists = false;
-	for (list<Entity*>::const_iterator it = location->container.cbegin(); it != location->container.cend(); ++it)
+	for (list<Entity*>::const_iterator it = location->container.cbegin(); it != location->container.cend() && !exitExists ; ++it)
 	{
 		if( (*it)->type == EXIT )
 		{
@@ -54,7 +54,7 @@ void Player::Take(const string& object)
 			Add(*it);
 			cout << "The item " << (*it)->name << " has been added to your inventory.\n\n>";
 			location->container.remove(*it);
-			break;
+			return;
 		}
 	}
 }
@@ -85,7 +85,7 @@ void Player::Drop(const string& object)
 			location->Add(*it);
 			cout << "The item " << (*it)->name << " has been dropped into the room.\n\n>";
 			container.remove(*it);
-			break;
+			return;
 		}
 	}
 }
@@ -115,12 +115,12 @@ void Player::PutInside(const string& object, const string& objContainer)
 						(*objectContainer)->Add(*objectItem);
 						cout << "The item " << (*objectItem)->name << " has been placed inside the " << (*objectContainer)->name << ".\n\n>";
 						container.remove(*objectItem);
-						break;
+						return;
 					}
 				}	
 			}
 		}
-		break;
+		return;
 	}
 }
 
@@ -251,7 +251,9 @@ void Player::Open(const string& object)
 	{
 		if((*it)->type == ITEM)
 		{
-			if (static_cast<Item*>(*it)->item_type == CONTAINER)
+			string name = (*it)->name;
+			GetLowerCase(name);
+			if (static_cast<Item*>(*it)->item_type == CONTAINER && (*it)->name == object)
 			{
 				if(!(*it)->container.empty())
 				{

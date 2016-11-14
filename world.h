@@ -5,9 +5,9 @@
 #include <map>
 #include <time.h>
 
-#define ROOM_CHANGE_FREQUENCY 60.0f
+#define ROOM_CHANGE_FREQUENCY 50.0f
 #define ROOM_TRAP_FREQUENCY 15.0f
-#define HUNGRY_FREQUENCY 40.0f
+#define HUNGRY_FREQUENCY 60.0f
 
 using namespace std;
 
@@ -36,7 +36,9 @@ private:
 	vector<Entity*> entities;
 	Player* player;
 	vector<Room*> roomsChanges;
-	clock_t timer;
+	clock_t changeRoomTimer;
+	clock_t hungryTimer;
+	clock_t trapTimer;
 };
 
 #endif //__World__

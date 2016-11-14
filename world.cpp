@@ -8,7 +8,9 @@
 
 World::World()
 {
-	timer = clock();
+	changeRoomTimer = clock();
+	hungryTimer = clock();
+	trapTimer = clock();
 
 	Trap* fire = new Trap("The room is filled with fire. (Damage: -100%)", 100);
 	Trap* acid = new Trap("It is raining acid. (Damage: -20%)", 20);
@@ -299,20 +301,20 @@ bool World::GameLoop()
 {
 	clock_t now = clock();
 
-	if ((now - timer) / CLOCKS_PER_SEC > ROOM_CHANGE_FREQUENCY)
+	if ((now - changeRoomTimer) / CLOCKS_PER_SEC > ROOM_CHANGE_FREQUENCY)
 	{
 		ChangeRoomsPosition();
-		timer = now;
+		changeRoomTimer = now;
 	}
 
-	if ((now - timer) / CLOCKS_PER_SEC > HUNGRY_FREQUENCY)
+	if ((now - hungryTimer) / CLOCKS_PER_SEC > HUNGRY_FREQUENCY)
 	{
 		player->IncreaseHungry(20);
-		cout << "You are getting hungry. (Hungry: +20%)\n\n";
-		timer = now;
+		cout << "\nYou are getting hungry. (Hungry: +20%)\n\n>";
+		hungryTimer = now;
 		if (player->hungry == 100)
 		{
-			cout << "You are starved.\nGAME OVER!\n\n";
+			cout << "\nYou are starved.\nGAME OVER!\n\n";
 			return false;
 		}
 	}
@@ -320,11 +322,11 @@ bool World::GameLoop()
 	if (player->location->type == ROOM_WITH_TRAP)
 	{
 		RoomWithTrap* roomWithTrap = static_cast<RoomWithTrap*>(player->location);
-		if ((now - timer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
+		if ((now - trapTimer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
 		{
 			cout << "\n" << roomWithTrap->trap->description << "\n\n";
 			player->DecreaseHealth(roomWithTrap->trap->damage);
-			timer = now;
+			trapTimer = now;
 		}
 		if (player->health == 0)
 		{
@@ -354,11 +356,11 @@ void World::EntryMessage() const
 void World::ChangeRoomsPosition()
 {
 	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
-		if ((*it)->type == ROOM)
+		if ((*it)->type == ROOM || (*it)->type == ROOM_WITH_TRAP)
 			static_cast<Room*>(*it)->GoToNextPosition(roomsChanges);
 
 	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
-		if ((*it)->type == ROOM)
+		if ((*it)->type == ROOM || (*it)->type == ROOM_WITH_TRAP)
 			static_cast<Room*>(*it)->SaveAllExits();
 
 	cout << "\nThe room is shaking, it seems that the exits have changed.\n\n>";
