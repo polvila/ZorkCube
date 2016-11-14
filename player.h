@@ -12,7 +12,7 @@ public:
 	Player(const string& name, const string& description, Room* location);
 	~Player();
 
-	void Look() const;
+	void Look() const override;
 	void GoTo(const string& direction);
 	void Take(const string& object);
 	void ShowInventory();
@@ -26,7 +26,6 @@ public:
 	void DecreaseHungry(int percentage);
 	bool IncreaseHungry(int percentage);
 	void Open(const string& object);
-public:
 
 	Room* location;
 	int health;
@@ -36,10 +35,6 @@ private:
 
 	void TryToGoThrowThat(Exit* exit);
 	void ChangePlayerLocationAndLook(Room* destination);
-	
-
-	
-
 };
 
 #endif //__Player__

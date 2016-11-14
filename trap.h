@@ -13,12 +13,6 @@ public:
 
 	string description;
 	int damage;
-
-private:
-	
-	
-
-
 };
 
 #endif //__Trap__

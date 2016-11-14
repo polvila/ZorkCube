@@ -16,22 +16,23 @@ int main()
 	{
 		if (_kbhit() != 0) 
 		{
-			getline(cin, input);
-			vector<string> args = Split(GetLowerCase(input), " ");
+			getline(cin, input); 
+			GetLowerCase(input);
+			vector<string> args = Split(input, " ");
 			if (args[0] == "quit" || args[0] == "q")
 			{
-				cout << "Are you sure you want to leave? (yes/no)\n\n";
+				cout << "Are you sure you want to leave? (yes/no)\n\n>";
 				getline(cin, input);
 				if (input == "yes")
 					break;
-				cout << "Resumed.\n\n";
+				cout << "Resumed.\n\n>";
 			}else if (!theCube->Process(args))
-				cout << "That's not a verb I recognise.\n\n";
+				cout << "Sorry, I do not understand your command.\n\n>";
 		}
 
 		if(theCube->GameLoop() == false)
 		{
-			cout << "Do you want to play again? (yes/no)\n\n";
+			cout << "Do you want to play again? (yes/no)\n\n>";
 
 			getline(cin, input);
 

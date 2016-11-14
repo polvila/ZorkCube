@@ -16,11 +16,6 @@ void Entity::Look() const
 	cout << name + "\n" + description + "\n";
 }
 
-void Entity::Update()
-{
-
-}
-
 void Entity::Add(Entity* entity)
 {
 	container.push_back(entity);

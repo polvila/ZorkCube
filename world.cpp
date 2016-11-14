@@ -4,7 +4,6 @@
 #include "item.h"
 #include "exit.h"
 #include "world.h"
-#include "globals.h"
 #include "roomWithTrap.h"
 
 World::World()
@@ -16,15 +15,15 @@ World::World()
 	Trap* poison = new Trap("You are breathing poison. (Damage: -20%)", 20);
 	Trap* lasers = new Trap("A grid of lasers has chopped you. (Damage: -100%)", 100);
 
-	Room* roomA = new Room("3'21 000 101'(A)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomB = new RoomWithTrap("41'2' 000 21'0(B)", "You are in a cubic GREEN room.", "green", poison);
-	Room* roomC = new Room("21'1 000 2'11(C)", "You are in a cubic WHITE room.", "white");
-	Room* roomD = new Room("201' 010 2'11(D)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomE = new RoomWithTrap("31'0 41'1' 101'(E)", "You are in a cubic RED room.", "red", fire);
-	Room* roomF = new Room("1'11 101 21'0(F)", "You are in a cubic ORANGE room.", "orange");
-	Room* roomG = new RoomWithTrap("21'0 201' 41'1'(G)", "You are in a cubic GREEN room.", "green", acid);
-	Room* roomH = new RoomWithTrap("2'11 31'0 101(H)", "You are in a cubic RED room.", "red", lasers);
-	Room* roomI = new Room("101' 1'11 010(I)", "You are in a cubic ORANGE room.", "orange");
+	Room* roomA = new Room("3'21 000 101'", "You are in a cubic ORANGE room.", "orange");
+	Room* roomB = new RoomWithTrap("41'2' 000 21'0", "You are in a cubic GREEN room.", "green", poison);
+	Room* roomC = new Room("21'1 000 2'11", "You are in a cubic WHITE room.", "white");
+	Room* roomD = new Room("201' 010 2'11", "You are in a cubic ORANGE room.", "orange");
+	Room* roomE = new RoomWithTrap("31'0 41'1' 101'", "You are in a cubic RED room.", "red", fire);
+	Room* roomF = new Room("1'11 101 21'0", "You are in a cubic ORANGE room.", "orange");
+	Room* roomG = new RoomWithTrap("21'0 201' 41'1'", "You are in a cubic GREEN room.", "green", acid);
+	Room* roomH = new RoomWithTrap("2'11 31'0 101", "You are in a cubic RED room.", "red", lasers);
+	Room* roomI = new Room("101' 1'11 010", "You are in a cubic ORANGE room.", "orange");
 	Room* roomEND = new Room("EXIT!", "You have found the exit of the big cube, but you do not have anything to do out there. There is only unlimited human stupidity.\n\nTHE END\n", "white");
 
 	roomA->SetNextPosition(roomB);
@@ -194,8 +193,8 @@ World::World()
 	Item* medicalKit = new Item("Kit", "First-aid kit to heal minor injuries. (+40%)", HEALTH, 40);
 	Item* note = new Item("Note", "A note where it says \" 3'==-3 \".");
 	roomC->Add(bag);
-	roomC->Add(cookies);
-	roomC->Add(medicalKit);
+	roomA->Add(cookies);
+	roomD->Add(medicalKit);
 	roomC->Add(note);
 
 	player = new Player("Human", "You do not know how you got here.", roomC);
@@ -236,48 +235,50 @@ World::~World()
 	entities.clear();
 }
 
-bool World::Process(vector<string> args)
+bool World::Process(vector<string> args) const
 {	
+	bool ret = true;
 	if(args.size() == 1)
 	{
 		if (args[0] == "look" || args[0] == "l")
 		{
 			player->Look();
-			return true;
 		}else if(args[0] == "inventory" || args[0] == "i")
 		{
 			player->ShowInventory();
-			return true;
 		}else if(args[0] == "diagnose") 
 		{
 			player->ShowStatus();
-			return true;
-		}
+		}else if (args[0] == "help")
+		{
+			ShowHelp();
+		}else if (args[0] == "info")
+		{
+			ShowInfo();
+		}else
+			ret = false;
 			
 	}else if(args.size() == 2)
 	{
 		if (args[0] == "goto" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west" || args[1] == "up" || args[1] == "down"))
 		{
 			player->GoTo(args[1]);
-			return true;
 		}else if(args[0] == "take")
 		{
 			player->Take(args[1]);
-			return true;
 		}else if(args[0] == "drop")
 		{
 			player->Drop(args[1]);
-			return true;
 		}else if (args[0] == "use")
 		{
 			player->Use(args[1]);
-			return true;
 		}
 		else if (args[0] == "open")
 		{
 			player->Open(args[1]);
-			return true;
 		}
+		else
+			ret = false;
 
 	}else if(args.size() == 4)
 	{
@@ -287,10 +288,11 @@ bool World::Process(vector<string> args)
 				player->PutInside(args[1], args[3]);
 			else
 				cout << "You do not have the item " << args[1] << " in your inventory.\n\n";
-			return true;
 		}
+		else
+			ret = false;
 	}
-	return false;
+	return ret;
 }
 
 bool World::GameLoop()
@@ -303,13 +305,26 @@ bool World::GameLoop()
 		timer = now;
 	}
 
+	if ((now - timer) / CLOCKS_PER_SEC > HUNGRY_FREQUENCY)
+	{
+		player->IncreaseHungry(20);
+		cout << "You are getting hungry. (Hungry: +20%)\n\n";
+		timer = now;
+		if (player->hungry == 100)
+		{
+			cout << "You are starved.\nGAME OVER!\n\n";
+			return false;
+		}
+	}
+
 	if (player->location->type == ROOM_WITH_TRAP)
 	{
 		RoomWithTrap* roomWithTrap = static_cast<RoomWithTrap*>(player->location);
 		if ((now - timer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
 		{
-			cout << roomWithTrap->trap->description << "\n\n";
+			cout << "\n" << roomWithTrap->trap->description << "\n\n";
 			player->DecreaseHealth(roomWithTrap->trap->damage);
+			timer = now;
 		}
 		if (player->health == 0)
 		{
@@ -331,6 +346,7 @@ void World::Add(Entity* entity)
 
 void World::EntryMessage() const
 {
+	cout << "Welcome to ZORKCUBE\n\n";
 	cout << "You have awakened, you can not remember what has happened or how you got here.\n----------------\n\n";
 	player->Look();
 }
@@ -345,5 +361,36 @@ void World::ChangeRoomsPosition()
 		if ((*it)->type == ROOM)
 			static_cast<Room*>(*it)->SaveAllExits();
 
-	cout << "The room is shaking, it seems that the exits have changed.\n\n";
+	cout << "\nThe room is shaking, it seems that the exits have changed.\n\n>";
+}
+
+void World::ShowHelp()
+{
+	cout << "Useful commands:\n\n";
+	cout << "\tThe 'INFO' command prints information which might give some idea of what the game is about.\n";
+	cout << "\tThe 'QUIT' command asks whether you wish to continue playing.\n";
+	cout << "\tThe 'INVENTORY' command lists the objects in your possession.\n";
+	cout << "\tThe 'LOOK' command prints a description of your surroundings.\n";
+	cout << "\tThe 'DIAGNOSE' command reports on your status.\n";
+	cout << "\tThe 'TAKE someObject' command puts someObject on your inventory.\n";
+	cout << "\tThe 'DROP someObject' command drops someObject from your inventory in the current room.\n";
+	cout << "\tThe 'GOTO [north|east|west|south|up|down]' command shows the identification of the room that you want to go and ask whether you are sure to go to that room.\n";
+	cout << "\tThe 'OPEN someObject' command opens someObject in the actual room.\n";
+	cout << "\tThe 'USE someObject' command consumes someObject from your inventory.\n";
+	cout << "\tThe 'PUT someObject1 INSIDE someObject2' puts the someObject1 inside the someObject2.\n\n";
+
+	cout << "Command abbreviations:\n\n";
+	cout << "\tThe 'INVENTORY' command may be abbreviated 'I'.\n";
+	cout << "\tThe 'LOOK' command may be abbreviated 'L'.\n";
+	cout << "\tThe 'QUIT' command may be abbreviated 'Q'.\n\n";
+}
+
+void World::ShowInfo()
+{
+	cout << "Welcome to ZORKCUBE\n\n";
+	cout << "You wake up in a white room and you do not know how you got there.";
+	cout << "The room has six exits but someones are blocked. From time to time, you feel that the room has been moved.\n\n";
+	cout << "The player are closed inside a big 3x3x3 cube with nine mini cubes / rooms inside it in movement(every some inputs).";
+	cout << "The big one only has an exit and the little ones have 6 exits.\n\n";
+	cout << "Your goal is to get out of the big cube.\n\n";
 }

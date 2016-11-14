@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef __RoomWithTrap__
+#define __RoomWithTrap__
+
 #include "room.h"
 #include "trap.h"
 
@@ -11,8 +13,6 @@ public:
 	~RoomWithTrap();
 
 	Trap* trap;
-private:
-
-	
-
 };
+
+#endif //__RoomWithTrap__

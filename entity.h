@@ -23,11 +23,9 @@ public:
 	virtual ~Entity();
 
 	virtual void Look() const;
-	virtual void Update();
 
 	void Add(Entity* entity);
 
-public:
 	EntityType type;
 	string name;
 	string description;

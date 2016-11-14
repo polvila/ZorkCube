@@ -1,16 +1,27 @@
 ﻿#include <ctype.h> 
 #include "globals.h"
+#include "windows.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-string GetLowerCase(string sentence)
+void GetLowerCase(string& sentence)
 {
 	for (string::iterator it = sentence.begin(); it < sentence.end(); ++it)
 	{
 		if(isupper(*it))
 			*it = tolower(*it);
 	}
-	return sentence;
+}
+
+void GetUpperCase(string& sentence)
+{
+	for (string::iterator it = sentence.begin(); it < sentence.end(); ++it)
+	{
+		if (islower(*it))
+			*it = toupper(*it);
+	}
 }
 
 vector<string> Split(string& sentence, const string& delimiter)
@@ -26,4 +37,17 @@ vector<string> Split(string& sentence, const string& delimiter)
 	}
 	args.push_back(sentence);
 	return args;
+}
+
+void PrintColorNameWithColor(string& colorName) {
+	int color = 7;
+	if (colorName == "GREEN")
+		color = 2;
+	else if (colorName == "RED")
+		color = 4;
+	else if (colorName == "ORANGE")
+		color = 6;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	cout << colorName;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 }

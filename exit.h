@@ -11,11 +11,8 @@ public:
 	~Exit();
 
 	void Look() const;
-
-public:
 	
 	Room* destination; 
-
 };
 
 #endif //__Exit__
