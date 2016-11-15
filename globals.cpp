@@ -24,9 +24,8 @@ void GetUpperCase(string& sentence)
 	}
 }
 
-vector<string> Split(string& sentence, const string& delimiter)
+void Split(string& sentence, const string& delimiter, vector<string> args)
 {
-	vector<string> args;
 	size_t pos = 0;
 	string token;
 	while ((pos = sentence.find(delimiter)) != string::npos) {
@@ -36,7 +35,6 @@ vector<string> Split(string& sentence, const string& delimiter)
 		sentence.erase(0, pos + delimiter.length());
 	}
 	args.push_back(sentence);
-	return args;
 }
 
 void PrintColorNameWithColor(string& colorName) {

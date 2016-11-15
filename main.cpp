@@ -18,7 +18,8 @@ int main()
 		{
 			getline(cin, input); 
 			GetLowerCase(input);
-			vector<string> args = Split(input, " ");
+			vector<string> args;
+			Split(input, " ", args);
 			if (args[0] == "quit" || args[0] == "q")
 			{
 				cout << "Are you sure you want to leave? (yes/no)\n\n>";
