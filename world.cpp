@@ -384,7 +384,7 @@ void World::ShowHelp()
 	cout << "Command abbreviations:\n\n";
 	cout << "\tThe 'INVENTORY' command may be abbreviated 'I'.\n";
 	cout << "\tThe 'LOOK' command may be abbreviated 'L'.\n";
-	cout << "\tThe 'QUIT' command may be abbreviated 'Q'.\n\n";
+	cout << "\tThe 'QUIT' command may be abbreviated 'Q'.\n\n>";
 }
 
 void World::ShowInfo()

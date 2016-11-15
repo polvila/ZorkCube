@@ -96,8 +96,6 @@ void Player::PutInside(const string& object, const string& objContainer)
 	{
 		string objectItemName = (*objectItem)->name;
 		GetLowerCase(objectItemName);
-		cout << object;
-		cout << objectItemName;
 		if(objectItemName == object)
 		{
 			list<Entity*> inventoryAndRoomContainer;
@@ -120,8 +118,8 @@ void Player::PutInside(const string& object, const string& objContainer)
 				}	
 			}
 		}
-		return;
 	}
+	return;
 }
 
 bool Player::HasThisItem(const string& object)
