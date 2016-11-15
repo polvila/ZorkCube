@@ -251,7 +251,7 @@ void Player::Open(const string& object)
 		{
 			string name = (*it)->name;
 			GetLowerCase(name);
-			if (static_cast<Item*>(*it)->item_type == CONTAINER && (*it)->name == object)
+			if (static_cast<Item*>(*it)->item_type == CONTAINER && name == object)
 			{
 				if(!(*it)->container.empty())
 				{
