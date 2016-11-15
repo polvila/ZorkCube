@@ -223,7 +223,7 @@ World::World()
 	roomsChanges.push_back(roomI);
 
 	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
-		if ((*it)->type == ROOM)
+		if ((*it)->type == ROOM || (*it)->type == ROOM_WITH_TRAP)
 			(static_cast<Room*>(*it))->SaveAllExits();
 
 	EntryMessage();
