@@ -11,7 +11,7 @@ Entity::~Entity()
 {
 }
 
-bool Entity::Look() 
+bool Entity::Look() const
 {
 	cout << name + "\n" + description + "\n";
 	return true;

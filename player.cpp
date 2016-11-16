@@ -18,7 +18,7 @@ Player::~Player()
 {
 }
 
-bool Player::Look()
+bool Player::Look() const
 {
 	location->Look();
 	cout << "\n>";
@@ -258,4 +258,37 @@ bool Player::Open(const string& object)
 		return true;
 	}
 	return false;
+}
+
+bool Player::ShowHelp() const
+{
+	cout << "Useful commands:\n\n";
+	cout << "\tThe 'INFO' command prints information which might give some idea of what the game is about.\n";
+	cout << "\tThe 'QUIT' command asks whether you wish to continue playing.\n";
+	cout << "\tThe 'INVENTORY' command lists the objects in your possession.\n";
+	cout << "\tThe 'LOOK' command prints a description of your surroundings.\n";
+	cout << "\tThe 'DIAGNOSE' command reports on your status.\n";
+	cout << "\tThe 'TAKE someObject' command puts someObject on your inventory.\n";
+	cout << "\tThe 'DROP someObject' command drops someObject from your inventory in the current room.\n";
+	cout << "\tThe 'GOTO [north|east|west|south|up|down]' command shows the identification of the room that you want to go and ask whether you are sure to go to that room.\n";
+	cout << "\tThe 'OPEN someObject' command opens someObject in the actual room.\n";
+	cout << "\tThe 'USE someObject' command consumes someObject from your inventory.\n";
+	cout << "\tThe 'PUT someObject1 INSIDE someObject2' puts the someObject1 inside the someObject2.\n\n";
+
+	cout << "Command abbreviations:\n\n";
+	cout << "\tThe 'INVENTORY' command may be abbreviated 'I'.\n";
+	cout << "\tThe 'LOOK' command may be abbreviated 'L'.\n";
+	cout << "\tThe 'QUIT' command may be abbreviated 'Q'.\n\n>";
+	return true;
+}
+
+bool Player::ShowInfo() const
+{
+	cout << "Welcome to ZORKCUBE\n\n";
+	cout << "You wake up in a white room and you do not know how you got there.";
+	cout << "The room has six exits but someones are blocked. From time to time, you feel that the room has been moved.\n\n";
+	cout << "The player are closed inside a big 3x3x3 cube with nine mini cubes / rooms inside it in movement(every some inputs).";
+	cout << "The big one only has an exit and the little ones have 6 exits.\n\n";
+	cout << "Your goal is to get out of the big cube.\n\n>";
+	return true;
 }

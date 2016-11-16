@@ -13,7 +13,7 @@ public:
 	Player(const string& name, const string& description, Room* location);
 	~Player();
 
-	bool Look() override;
+	bool Look() const;
 	bool GoTo(const string& direction);
 	bool Take(const string& object);
 	bool ShowInventory() const;
@@ -27,6 +27,8 @@ public:
 	void DecreaseHungry(int percentage);
 	bool IncreaseHungry(int percentage);
 	bool Open(const string& object);
+	bool ShowHelp() const;
+	bool ShowInfo() const;
 
 	Room* location;
 	int health;

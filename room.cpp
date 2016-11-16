@@ -13,7 +13,7 @@ Room::~Room()
 {
 }
 
-bool Room::Look()
+bool Room::Look() const
 {
 	cout << name << "\n" << description << "\n";
 	if(!container.empty())

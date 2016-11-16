@@ -22,7 +22,7 @@ public:
 	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
-	virtual bool Look();
+	virtual bool Look() const;
 
 	void Add(Entity* entity);
 

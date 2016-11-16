@@ -10,7 +10,7 @@ public:
 	Exit(const string& name, const string& description, Room* destination);
 	~Exit();
 
-	bool Look() override;
+	bool Look() const override;
 	
 	Room* destination; 
 };

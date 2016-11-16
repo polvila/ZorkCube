@@ -12,7 +12,7 @@ public:
 	Room(const string& name, const string& description, const string& color);
 	~Room();
 
-	bool Look() override;
+	bool Look() const override;
 	void GoToNextPosition(vector<Room*> roomsChange);
 	void SaveAllExits();
 	void SetNextPosition(Room* nextPosition);

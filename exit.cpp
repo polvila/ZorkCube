@@ -11,7 +11,7 @@ Exit::~Exit()
 {
 }
 
-bool Exit::Look()
+bool Exit::Look() const
 {
 	cout << "\t" << name << "\n\t" << description << " " << destination->name << "\n";
 	return true;
