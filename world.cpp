@@ -300,19 +300,21 @@ bool World::GameLoop()
 		}
 	}
 
-	if (player->location->type == ROOM_WITH_TRAP)
+	if ((now - trapTimer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
 	{
-		RoomWithTrap* roomWithTrap = static_cast<RoomWithTrap*>(player->location);
-		if ((now - trapTimer) / CLOCKS_PER_SEC > ROOM_TRAP_FREQUENCY)
+		trapTimer = now;
+		if (player->location->type == ROOM_WITH_TRAP)
 		{
-			cout << "\n" << roomWithTrap->trap->description << "\n\n";
+			RoomWithTrap* roomWithTrap = static_cast<RoomWithTrap*>(player->location);
+
+			cout << "\n" << roomWithTrap->trap->description << "\n\n>";
 			player->DecreaseHealth(roomWithTrap->trap->damage);
-			trapTimer = now;
-		}
-		if (player->health == 0)
-		{
-			cout << "You are dead.\nGAME OVER!\n\n";
-			return false;
+
+			if (player->health == 0)
+			{
+				cout << "\nYou are dead.\nGAME OVER!\n\n";
+				return false;
+			}
 		}
 	}
 
