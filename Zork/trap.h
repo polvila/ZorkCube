@@ -14,7 +14,6 @@ public:
 
 	void MakeDamage(Player* player) const;
 
-	string description;
 	int damage;
 };
 

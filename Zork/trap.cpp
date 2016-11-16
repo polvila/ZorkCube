@@ -14,6 +14,7 @@ Trap::~Trap()
 
 void Trap::MakeDamage(Player* player) const
 {
+	cout << name;
 	cout << "\n" << description << "\n\n>";
 	player->DecreaseHealth(damage);
 }

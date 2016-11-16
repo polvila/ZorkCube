@@ -88,7 +88,7 @@ void Room::ChangeExitDestinations(vector<Room*> roomChanges) const
 
 Room* Room::GetRoomNextPosition(vector<Room*> roomChanges, Room* destination)
 {
-	for (int i = 0; i < roomChanges.size() ; i++)
+	for (size_t i = 0; i < roomChanges.size() ; i++)
 	{
 		if (destination == roomChanges[i])
 		{

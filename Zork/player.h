@@ -33,8 +33,7 @@ public:
 	bool HasFoundTheExit() const;
 
 	Room* location;
-	
-	
+
 private:
 
 	void TryToGoThrowThat(Exit* exit);

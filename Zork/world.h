@@ -16,19 +16,6 @@ class Entity;
 class Player;
 class Room;
 
-//template<class T>
-//typedef bool(Player::*DoFunc1)();
-//typedef map<string, *DoFunc1> CommandMap1;
-
-//typedef bool(Player::*DoFunc2)(const string&);
-//template<typename T>
-//typedef map<string, bool(T::*)(const string&)> CommandMap2;
-
-//typedef bool(Player::*DoFunc3)(const string&, const string&);
-//template<typename T>
-//typedef map<string, bool(T::*)(const string&, const string&)> CommandMap3;
-
-
 class World
 {
 public:
@@ -70,7 +57,6 @@ private:
 	void FillCommandMaps();
 	vector<Entity*> GetEntities() const;
 
-
 	map<string, Entity*> entities;
 	Player* player;
 	vector<Room*> roomsChanges;
@@ -81,7 +67,6 @@ private:
 	map<string, bool(Player::*)() const> commandMap1;
 	map<string, bool(Player::*)(const string&)> commandMap2;
 	map<string, bool(Player::*)(const string&, const string&)> commandMap3;
-	
 };
 
 #endif //__World__
