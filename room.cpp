@@ -18,19 +18,8 @@ bool Room::Look() const
 	cout << name << "\n" << description << "\n";
 	if(!container.empty())
 	{
-		cout << "Items:\n";
-		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
-		{
-			if ((*it)->type == ITEM)
-				(*it)->Look();
-		}
-
-		cout << "Exits:\n";
-		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
-		{
-			if ((*it)->type == EXIT)
-				(*it)->Look();
-		}
+		ShowItems();
+		ShowRooms();
 	}
 	return true;
 }
@@ -108,4 +97,24 @@ Room* Room::GetRoomNextPosition(vector<Room*> roomChanges, Room* destination)
 		}
 	}
 	return destination;
+}
+
+void Room::ShowItems() const
+{
+	cout << "Items:\n";
+	for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+	{
+		if ((*it)->type == ITEM)
+			(*it)->Look();
+	}
+}
+
+void Room::ShowRooms() const
+{
+	cout << "Exits:\n";
+	for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+	{
+		if ((*it)->type == EXIT)
+			(*it)->Look();
+	}
 }

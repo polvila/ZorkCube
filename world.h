@@ -62,6 +62,7 @@ private:
 	void CreateAndAssignExitsRoomH();
 	void CreateAndAssignExitsRoomI();
 	void AddExitsToRooms();
+	void CreatePlayer();
 	void CreateItems();
 	void AssignItems();
 	void FillRoomChanges();
@@ -71,7 +72,6 @@ private:
 
 
 	map<string, Entity*> entities;
-	//vector<Entity*> entities;
 	Player* player;
 	vector<Room*> roomsChanges;
 	clock_t changeRoomTimer;

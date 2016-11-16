@@ -16,7 +16,7 @@ World::World()
 	AssignTraps();
 	SetNextPositionsRooms();
 	AddExitsToRooms();
-	player = new Player("Human", "You do not know how you got here.", static_cast<Room*>(entities.at("roomC")));
+	CreatePlayer();
 	CreateItems();
 	AssignItems();
 	FillRoomChanges();
@@ -347,6 +347,11 @@ void World::AddExitsToRooms()
 	CreateAndAssignExitsRoomG();
 	CreateAndAssignExitsRoomH();
 	CreateAndAssignExitsRoomI();
+}
+
+void World::CreatePlayer()
+{
+	entities["player"] = player = new Player("Human", "You do not know how you got here.", static_cast<Room*>(entities.at("roomC")));
 }
 
 void World::CreateItems()
