@@ -286,7 +286,7 @@ bool Player::ShowInfo() const
 
 bool Player::IsAlive() const
 {
-	return health > 0;
+	return health > 0 && hungry < 100;
 }
 
 bool Player::HasFoundTheExit() const
