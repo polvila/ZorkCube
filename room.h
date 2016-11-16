@@ -28,8 +28,8 @@ private:
 	void PutAll(list<Entity*>& exits) const;
 	void ChangeExitDestinations(vector<Room*> roomChanges) const;
 	static Room* GetRoomNextPosition(vector<Room*> roomChanges, Room* destination);
-	void ShowItems();
-	void ShowRooms();
+	void ShowItems() const;
+	void ShowRooms() const;
 };
 
 #endif //__Room__
