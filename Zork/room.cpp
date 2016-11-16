@@ -1,7 +1,7 @@
 #include <iostream>
 #include "room.h"
 #include "exit.h"
-#include "globals.h"
+#include "utils.h"
 
 Room::Room(const string& name, const string& description, const string& color) :
 	Entity(name, description), color(color), nextPosition(nullptr)
@@ -13,25 +13,15 @@ Room::~Room()
 {
 }
 
-void Room::Look() const
+bool Room::Look() const
 {
 	cout << name << "\n" << description << "\n";
 	if(!container.empty())
 	{
-		cout << "Items:\n";
-		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
-		{
-			if ((*it)->type == ITEM)
-				(*it)->Look();
-		}
-
-		cout << "Exits:\n";
-		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
-		{
-			if ((*it)->type == EXIT)
-				(*it)->Look();
-		}
+		ShowItems();
+		ShowRooms();
 	}
+	return true;
 }
 
 void Room::GoToNextPosition(vector<Room*> roomsChange)
@@ -58,6 +48,12 @@ void Room::SaveAllExits()
 void Room::SetNextPosition(Room* nextPosition)
 {
 	this->nextPosition = nextPosition;
+}
+
+void Room::PrintColorRoom() const
+{
+	string aux;
+	PrintColorNameWithColor(UpperCase(color, aux));
 }
 
 void Room::RemoveAllExits()
@@ -92,7 +88,7 @@ void Room::ChangeExitDestinations(vector<Room*> roomChanges) const
 
 Room* Room::GetRoomNextPosition(vector<Room*> roomChanges, Room* destination)
 {
-	for (int i = 0; i < roomChanges.size() ; i++)
+	for (size_t i = 0; i < roomChanges.size() ; i++)
 	{
 		if (destination == roomChanges[i])
 		{
@@ -101,4 +97,24 @@ Room* Room::GetRoomNextPosition(vector<Room*> roomChanges, Room* destination)
 		}
 	}
 	return destination;
+}
+
+void Room::ShowItems() const
+{
+	cout << "Items:\n";
+	for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+	{
+		if ((*it)->type == ITEM)
+			(*it)->Look();
+	}
+}
+
+void Room::ShowRooms() const
+{
+	cout << "Exits:\n";
+	for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
+	{
+		if ((*it)->type == EXIT)
+			(*it)->Look();
+	}
 }

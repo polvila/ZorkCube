@@ -11,14 +11,10 @@ Entity::~Entity()
 {
 }
 
-void Entity::Look() const
+bool Entity::Look() const
 {
 	cout << name + "\n" + description + "\n";
-}
-
-void Entity::Update()
-{
-
+	return true;
 }
 
 void Entity::Add(Entity* entity)

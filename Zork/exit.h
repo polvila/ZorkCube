@@ -10,12 +10,9 @@ public:
 	Exit(const string& name, const string& description, Room* destination);
 	~Exit();
 
-	void Look() const;
-
-public:
+	bool Look() const override;
 	
 	Room* destination; 
-
 };
 
 #endif //__Exit__

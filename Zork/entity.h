@@ -10,7 +10,7 @@ enum EntityType
 {
 	ENTITY,
 	ROOM,
-	ROOM_WITH_TRAP,
+	TRAP,
 	EXIT,
 	ITEM,
 	PLAYER
@@ -22,12 +22,10 @@ public:
 	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
-	virtual void Look() const;
-	virtual void Update();
+	virtual bool Look() const;
 
 	void Add(Entity* entity);
 
-public:
 	EntityType type;
 	string name;
 	string description;
