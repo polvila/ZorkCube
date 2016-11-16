@@ -15,6 +15,9 @@ class Entity;
 class Player;
 class Room;
 
+typedef bool(Player::*DoFunc)(const string& ... );
+typedef map<string, DoFunc> CommandMap;
+
 class World
 {
 public:
@@ -39,6 +42,8 @@ private:
 	clock_t changeRoomTimer;
 	clock_t hungryTimer;
 	clock_t trapTimer;
+	CommandMap commandMap;
+	
 };
 
 #endif //__World__

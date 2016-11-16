@@ -210,7 +210,6 @@ World::World()
 	this->Add(roomG);
 	this->Add(roomH);
 	this->Add(roomI);
-	this->Add(player);
 
 	roomsChanges.push_back(roomA);
 	roomsChanges.push_back(roomB);
@@ -225,6 +224,10 @@ World::World()
 	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it)
 		if ((*it)->type == ROOM || (*it)->type == ROOM_WITH_TRAP)
 			(static_cast<Room*>(*it))->SaveAllExits();
+
+	//commandMap["look"] = &Player::Look;
+	commandMap["goto"] = &Player::GoTo;
+	//commandMap["take"] = &Player::Take;
 
 	EntryMessage();
 }
