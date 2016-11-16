@@ -13,7 +13,7 @@ public:
 	Player(const string& name, const string& description, Room* location);
 	~Player();
 
-	bool Look() const;
+	bool Look() const override;
 	bool GoTo(const string& direction);
 	bool Take(const string& object);
 	bool ShowInventory() const;
@@ -22,23 +22,23 @@ public:
 	bool HasThisItem(const string& object) const;
 	bool ShowStatus() const;
 	bool Use(const string& object);
-	bool DecreaseHealth(int percentage);
+	void DecreaseHealth(int percentage);
 	void IncreaseHealth(int percentage);
 	void DecreaseHungry(int percentage);
-	bool IncreaseHungry(int percentage);
+	void IncreaseHungry(int percentage);
 	bool Open(const string& object);
 	bool ShowHelp() const;
 	bool ShowInfo() const;
+	bool IsAlive() const;
+	bool HasFoundTheExit() const;
 
 	Room* location;
-	int health;
-	int hungry;
+	
 	
 private:
 
 	void TryToGoThrowThat(Exit* exit);
 	void ChangePlayerLocationAndLook(Room* destination);
-	static Entity* Find(list<Entity*> container, const EntityType& entityType, const string& entityName);
 	bool IsAPossible(string direction) const;
 	void UseHealthIncrementer(Entity* entity);
 	void UseHungryDecrementer(Entity* entity);
@@ -48,6 +48,8 @@ private:
 	void TunnelConfirmation(Room* destination);
 	
 	vector<string> directions;
+	int health;
+	int hungry;
 };
 
 #endif //__Player__

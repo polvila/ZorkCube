@@ -1,7 +1,7 @@
 #include <iostream>
 #include "room.h"
 #include "exit.h"
-#include "globals.h"
+#include "utils.h"
 
 Room::Room(const string& name, const string& description, const string& color) :
 	Entity(name, description), color(color), nextPosition(nullptr)
@@ -63,9 +63,8 @@ void Room::SetNextPosition(Room* nextPosition)
 
 void Room::PrintColorRoom() const
 {
-	string aux = color;
-	GetUpperCase(aux);
-	PrintColorNameWithColor(aux);
+	string aux;
+	PrintColorNameWithColor(UpperCase(color, aux));
 }
 
 void Room::RemoveAllExits()

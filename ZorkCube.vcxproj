@@ -148,23 +148,21 @@
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="exit.cpp" />
-    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="room.cpp" />
-    <ClCompile Include="roomWithTrap.cpp" />
     <ClCompile Include="trap.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h" />
     <ClInclude Include="exit.h" />
-    <ClInclude Include="globals.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="room.h" />
-    <ClInclude Include="roomWithTrap.h" />
     <ClInclude Include="trap.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>

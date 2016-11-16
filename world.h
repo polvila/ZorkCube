@@ -37,15 +37,41 @@ public:
 	~World();
 
 	bool Process(vector<string> input) const;
-	bool GameLoop();
+	void GameLoop();
+	bool IsOver() const;
 
 private:
 
 	void EntryMessage() const;
-	void Add(Entity* entity);
-	void ChangeRoomsPosition();
+	void ChangeRoomsPosition() const;
+	void TryIfItsTimeToChangeRooms(clock_t now);
+	void TryIfItsTimeToIncreaseHungry(clock_t now);
+	void TryIfItsTimeToActivateTraps(clock_t now);
+	void InitializeClocks();
+	void CreateRooms();
+	void CreateTraps();
+	void AssignTraps();
+	void SetNextPositionsRooms();
+	void CreateAndAssignExitsRoomA();
+	void CreateAndAssignExitsRoomB();
+	void CreateAndAssignExitsRoomC();
+	void CreateAndAssignExitsRoomD();
+	void CreateAndAssignExitsRoomE();
+	void CreateAndAssignExitsRoomF();
+	void CreateAndAssignExitsRoomG();
+	void CreateAndAssignExitsRoomH();
+	void CreateAndAssignExitsRoomI();
+	void AddExitsToRooms();
+	void CreateItems();
+	void AssignItems();
+	void FillRoomChanges();
+	void SaveExitsAllRooms() const;
+	void FillCommandMaps();
+	vector<Entity*> GetEntities() const;
 
-	vector<Entity*> entities;
+
+	map<string, Entity*> entities;
+	//vector<Entity*> entities;
 	Player* player;
 	vector<Room*> roomsChanges;
 	clock_t changeRoomTimer;

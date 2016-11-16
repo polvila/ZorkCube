@@ -1,8 +1,8 @@
 #include <iostream>
 #include "exit.h"
 #include "player.h"
-#include "globals.h"
 #include "item.h"
+#include "utils.h"
 
 Player::Player(const string& name, const string& description, Room* location) :
 	Entity(name, description), location(location)
@@ -87,7 +87,7 @@ bool Player::PutInside(const string& object, const string& objContainer)
 		Entity* itemContainer = Find(JoinLists(container, location->container), ITEM, objContainer);
 		if(itemContainer != nullptr && static_cast<Item*>(itemContainer)->item_type == CONTAINER)
 			PutItemInsideItemContainer(item, itemContainer);
-		else cout << "You can not put the item " << item->name << " inside the " << itemContainer->name << " item.\n\n>";
+		else cout << "You can not put the item " << item->name << " inside the " << objContainer << " item.\n\n>";
 	}
 	else cout << "You have not the item " << object << " in your inventory.\n\n>";
 	return true;
@@ -133,18 +133,6 @@ void Player::ChangePlayerLocationAndLook(Room* destination)
 {
 	this->location = destination;
 	this->Look();
-}
-
-Entity* Player::Find(list<Entity*> container, const EntityType& entityType, const string& entityName)
-{
-	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
-	{
-		string name = (*it)->name;
-		GetLowerCase(name);
-		if ((*it)->type == entityType && name == entityName)
-			return *it;
-	}
-	return nullptr;
 }
 
 bool Player::IsAPossible(string direction) const
@@ -208,15 +196,16 @@ void Player::TunnelConfirmation(Room* destination)
 	else cout << "You are still in the same room.\n\n>";
 }
 
-bool Player::DecreaseHealth(int percentage)
+void Player::DecreaseHealth(int percentage)
 {
 	if (health > percentage)
 	{
 		health -= percentage;
-		return false;
+	}else
+	{
+		health = 0;
+		cout << "\nYou are dead.\nGAME OVER!\n\n";
 	}
-	health = 0;
-	return true;
 }
 
 void Player::IncreaseHealth(int percentage)
@@ -235,15 +224,17 @@ void Player::DecreaseHungry(int percentage)
 		hungry -= percentage;
 }
 
-bool Player::IncreaseHungry(int percentage)
+void Player::IncreaseHungry(int percentage)
 {
 	if (hungry + percentage < 100)
 	{
 		hungry += percentage;
-		return false;
+		cout << "\nYou are getting hungry. (Hungry: +" << percentage << "%)\n\n>";
+	}else
+	{
+		hungry = 100;
+		cout << "\nYou are starved.\nGAME OVER!\n\n";
 	}
-	hungry = 100;
-	return true;
 }
 
 bool Player::Open(const string& object)
@@ -291,4 +282,14 @@ bool Player::ShowInfo() const
 	cout << "The big one only has an exit and the little ones have 6 exits.\n\n";
 	cout << "Your goal is to get out of the big cube.\n\n>";
 	return true;
+}
+
+bool Player::IsAlive() const
+{
+	return health > 0;
+}
+
+bool Player::HasFoundTheExit() const
+{
+	return location->name == "EXIT!";
 }

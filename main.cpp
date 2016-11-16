@@ -2,14 +2,13 @@
 #include <string>
 #include <conio.h>
 #include "world.h"
-#include "globals.h"
+#include "utils.h"
 
 using namespace std;
 
 int main() 
 {
 	string input;
-	
 	World* theCube = new World();
 
 	while(true)
@@ -17,9 +16,8 @@ int main()
 		if (_kbhit() != 0) 
 		{
 			getline(cin, input); 
-			GetLowerCase(input);
 			vector<string> args;
-			Split(input, " ", args);
+			Split(LowerCase(input,input), " ", args);
 			if (args[0] == "quit" || args[0] == "q")
 			{
 				cout << "Are you sure you want to leave? (yes/no)\n\n>";
@@ -31,7 +29,9 @@ int main()
 				cout << "Sorry, I do not understand your command.\n\n>";
 		}
 
-		if(theCube->GameLoop() == false)
+		theCube->GameLoop();
+
+		if(theCube->IsOver())
 		{
 			cout << "Do you want to play again? (yes/no)\n\n>";
 
