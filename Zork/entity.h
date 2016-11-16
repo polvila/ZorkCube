@@ -10,28 +10,25 @@ enum EntityType
 {
 	ENTITY,
 	ROOM,
+	TRAP,
 	EXIT,
 	ITEM,
-	CREATURE,
 	PLAYER
 };
 
 class Entity
 {
 public:
-	Entity();
+	Entity(const string& name, const string& description);
 	virtual ~Entity();
 
-	virtual void Look() const;
+	virtual bool Look() const;
 
-	void	ChangeParentTo(Entity* new_parent);
+	void Add(Entity* entity);
 
-public:
 	EntityType type;
 	string name;
 	string description;
-
-	Entity* parent;
 	list<Entity*> container;
 };
 
