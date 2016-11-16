@@ -30,8 +30,8 @@ private:
 	void EntryMessage() const;
 	void Add(Entity* entity);
 	void ChangeRoomsPosition();
-	static void ShowHelp();
-	static void ShowInfo();
+	static bool ShowHelp();
+	static bool ShowInfo();
 
 	vector<Entity*> entities;
 	Player* player;

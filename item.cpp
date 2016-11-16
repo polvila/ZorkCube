@@ -11,7 +11,8 @@ Item::~Item()
 {
 }
 
-void Item::Look() const
+bool Item::Look()
 {
 	cout << "\t" << name << "\n\t" << description << "\n";
+	return true;
 }

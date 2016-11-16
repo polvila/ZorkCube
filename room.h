@@ -12,10 +12,11 @@ public:
 	Room(const string& name, const string& description, const string& color);
 	~Room();
 
-	void Look() const override;
+	bool Look() override;
 	void GoToNextPosition(vector<Room*> roomsChange);
 	void SaveAllExits();
 	void SetNextPosition(Room* nextPosition);
+	void PrintColorRoom() const;
 	
 	const string color;
 	list<Entity*> exitsSaved;

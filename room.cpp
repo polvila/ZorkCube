@@ -13,7 +13,7 @@ Room::~Room()
 {
 }
 
-void Room::Look() const
+bool Room::Look()
 {
 	cout << name << "\n" << description << "\n";
 	if(!container.empty())
@@ -32,6 +32,7 @@ void Room::Look() const
 				(*it)->Look();
 		}
 	}
+	return true;
 }
 
 void Room::GoToNextPosition(vector<Room*> roomsChange)
@@ -58,6 +59,13 @@ void Room::SaveAllExits()
 void Room::SetNextPosition(Room* nextPosition)
 {
 	this->nextPosition = nextPosition;
+}
+
+void Room::PrintColorRoom() const
+{
+	string aux = color;
+	GetUpperCase(aux);
+	PrintColorNameWithColor(aux);
 }
 
 void Room::RemoveAllExits()

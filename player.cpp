@@ -10,189 +10,122 @@ Player::Player(const string& name, const string& description, Room* location) :
 	type = PLAYER;
 	health = 100;
 	hungry = 0;
+
+	FillPossibleDirections();
 }
 
 Player::~Player()
 {
 }
 
-void Player::Look() const
+bool Player::Look()
 {
 	location->Look();
 	cout << "\n>";
+	return true;
 }
 
-void Player::GoTo(const string& direction)
+bool Player::GoTo(const string& direction)
 {	
-	bool exitExists = false;
-	for (list<Entity*>::const_iterator it = location->container.cbegin(); it != location->container.cend() && !exitExists ; ++it)
+	if(IsAPossible(direction))
 	{
-		if( (*it)->type == EXIT )
-		{
-			Exit* exit = static_cast<Exit*>(*it);
-			string name = exit->name;
-			GetLowerCase(name);
-			if (name == direction)
-			{
-				TryToGoThrowThat(exit);
-				exitExists = true;
-				break;
-			}
-		}
+		Entity* exit = Find(location->container, EXIT, direction);
+		if(exit != nullptr)
+			TryToGoThrowThat(static_cast<Exit*>(exit));
+		else
+			cout << "This exit is blocked.\n\n>";
+		return true;
 	}
-	if(!exitExists) cout << "This exit is blocked.\n\n>";
+	return false;
 }
 
-void Player::Take(const string& object)
+bool Player::Take(const string& object)
 {
-	for (list<Entity*>::iterator it = location->container.begin(); it != location->container.end(); ++it)
+	Entity* item = Find(location->container, ITEM, object);
+	if (item != nullptr)
 	{
-		string name = (*it)->name;
-		GetLowerCase(name);
-		if ((*it)->type == ITEM && name == object)
-		{
-			Add(*it);
-			cout << "The item " << (*it)->name << " has been added to your inventory.\n\n>";
-			location->container.remove(*it);
-			return;
-		}
+		Add(item);
+		cout << "The item " << item->name << " has been added to your inventory.\n\n>";
+		location->container.remove(item);
+		return true;
 	}
+	return false;
 }
 
-void Player::ShowInventory()
+bool Player::ShowInventory() const
 {
 	if(container.empty())
 		cout << "You are empty handed.\n\n>";
 	else
 	{
 		cout << "You are carrying:\n";
-		for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
-		{
+		for (list<Entity*>::const_iterator it = container.cbegin(); it != container.cend(); ++it)
 			(*it)->Look();
-		}
 		cout << "\n>";
 	}
+	return true;
 }
 
-void Player::Drop(const string& object)
+bool Player::Drop(const string& object)
 {
-	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
+	Entity* item = Find(container, ITEM, object);
+	if (item != nullptr)
 	{
-		string name = (*it)->name;
-		GetLowerCase(name);
-		if (name == object)
-		{
-			location->Add(*it);
-			cout << "The item " << (*it)->name << " has been dropped into the room.\n\n>";
-			container.remove(*it);
-			return;
-		}
-	}
-}
-
-void Player::PutInside(const string& object, const string& objContainer)
-{
-	for (list<Entity*>::iterator objectItem = container.begin(); objectItem != container.end(); ++objectItem)
-	{
-		string objectItemName = (*objectItem)->name;
-		GetLowerCase(objectItemName);
-		if(objectItemName == object)
-		{
-			list<Entity*> inventoryAndRoomContainer;
-			inventoryAndRoomContainer = container;
-			inventoryAndRoomContainer.insert(inventoryAndRoomContainer.end(), location->container.begin(), location->container.end());
-
-			for (list<Entity*>::iterator objectContainer = inventoryAndRoomContainer.begin(); objectContainer != inventoryAndRoomContainer.end(); ++objectContainer)
-			{
-				string objectContainerName = (*objectContainer)->name;
-				GetLowerCase(objectContainerName);
-				if(objectContainerName == objContainer && (*objectContainer)->type == ITEM)
-				{
-					if ((static_cast<Item*>(*objectContainer))->item_type == CONTAINER)
-					{
-						(*objectContainer)->Add(*objectItem);
-						cout << "The item " << (*objectItem)->name << " has been placed inside the " << (*objectContainer)->name << ".\n\n>";
-						container.remove(*objectItem);
-						return;
-					}
-				}	
-			}
-		}
-	}
-	return;
-}
-
-bool Player::HasThisItem(const string& object)
-{
-	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
-	{
-		string name = (*it)->name;
-		GetLowerCase(name);
-		if ((*it)->type == ITEM && name == object)
-			return true;
+		location->Add(item);
+		cout << "The item " << item->name << " has been dropped into the room.\n\n>";
+		container.remove(item);
+		return true;
 	}
 	return false;
 }
 
-void Player::ShowStatus() const
+bool Player::PutInside(const string& object, const string& objContainer)
+{
+	if (HasThisItem(object))
+	{
+		Entity* item = Find(container, ITEM, object);
+		Entity* itemContainer = Find(JoinLists(container, location->container), ITEM, objContainer);
+		if(itemContainer != nullptr && static_cast<Item*>(itemContainer)->item_type == CONTAINER)
+			PutItemInsideItemContainer(item, itemContainer);
+		else cout << "You can not put the item " << item->name << " inside the " << itemContainer->name << " item.\n\n>";
+	}
+	else cout << "You have not the item " << object << " in your inventory.\n\n>";
+	return true;
+}
+
+bool Player::HasThisItem(const string& object) const
+{
+	if (Find(container, ITEM, object) != nullptr)
+		return true;
+	return false;
+}
+
+bool Player::ShowStatus() const
 {
 	cout << "Health: " << health << "%\n";
 	cout << "Hungry: " << hungry << "%\n\n>";
+	return true;
 }
 
-void Player::Use(const string& object)
+bool Player::Use(const string& object)
 {
-	bool objExists = false, isConsumable = false;
-	for (list<Entity*>::iterator it = container.begin(); it != container.end();)
+	Entity* entity = Find(container, ITEM, object);
+	if (entity != nullptr)
 	{
-		string name = (*it)->name;
-		GetLowerCase(name);
-		if ((*it)->type == ITEM && name == object)
-		{
-			objExists = true;
-			Item* item = static_cast<Item*>(*it);
-			if (item->item_type == HEALTH)
-			{
-				isConsumable = true;
-				IncreaseHealth(item->percentage);
-				cout << "After using the item " << item->name << " you have achieved +" << item->percentage << "% of health.\n\n>";
-				it = container.erase(it);
-			}else if (item->item_type == HUNGRY)
-			{
-				isConsumable = true;
-				DecreaseHungry(item->percentage);
-				cout << "After using the item " << item->name << " you have achieved -" << item->percentage << "% of hungry.\n\n>";
-				it = container.erase(it);
-			}
-			else
-				++it;
-		}
-	}
-	if (!objExists)
-		cout << "You do not have the item " << object << " in your inventory.\n\n>";
-	else if (!isConsumable)
-		cout << "You can not consume the item " << object << ".\n\n>";
+		if (static_cast<Item*>(entity)->item_type == HEALTH)
+			UseHealthIncrementer(entity);
+		else if (static_cast<Item*>(entity)->item_type == HUNGRY)
+			UseHungryDecrementer(entity);
+		else cout << "You can not consume the item " << object << ".\n\n>";
+	}else cout << "You do not have the item " << object << " in your inventory.\n\n>";
+	return true;
 }
 
 void Player::TryToGoThrowThat(Exit* exit) 
-{
-	string answer;
+{ 
 	if(exit->destination->name != "EXIT!")
-	{
-		cout << "This tunnel has some written numbers (" << exit->destination->name << ") and leads to a ";
-		string color = exit->destination->color;
-		GetUpperCase(color);
-		PrintColorNameWithColor(color);
-		cout << " room."
-			<< " Are you sure to go through this tunnel? (yes/no)\n\n>";
-
-		getline(cin, answer);
-
-		if(answer == "yes")
-			ChangePlayerLocationAndLook(exit->destination);
-		else
-			cout << "You are still in the same room.\n\n>";
-	}else
+		TunnelConfirmation(exit->destination);
+	else
 		ChangePlayerLocationAndLook(exit->destination);
 }
 
@@ -200,6 +133,79 @@ void Player::ChangePlayerLocationAndLook(Room* destination)
 {
 	this->location = destination;
 	this->Look();
+}
+
+Entity* Player::Find(list<Entity*> container, const EntityType& entityType, const string& entityName)
+{
+	for (list<Entity*>::iterator it = container.begin(); it != container.end(); ++it)
+	{
+		string name = (*it)->name;
+		GetLowerCase(name);
+		if ((*it)->type == entityType && name == entityName)
+			return *it;
+	}
+	return nullptr;
+}
+
+bool Player::IsAPossible(string direction) const
+{
+	for (vector<string>::const_iterator it = directions.cbegin(); it != directions.cend(); ++it)
+		if ((*it) == direction)
+			return true;
+	return false;
+}
+
+void Player::UseHealthIncrementer(Entity* entity)
+{
+	Item* item = static_cast<Item*>(entity);
+	IncreaseHealth(item->percentage);
+	cout << "After using the item " << item->name << " you have achieved +" << item->percentage << "% of health.\n\n>";
+	container.remove(entity);
+}
+
+void Player::UseHungryDecrementer(Entity* entity)
+{
+	Item* item = static_cast<Item*>(entity);
+	DecreaseHungry(item->percentage);
+	cout << "After using the item " << item->name << " you have achieved -" << item->percentage << "% of hungry.\n\n>";
+	container.remove(entity);
+}
+
+void Player::MoveItemsToInventory(Entity* itemContainer)
+{
+	this->container.insert(this->container.end(), itemContainer->container.begin(), itemContainer->container.end());
+	itemContainer->container.clear();
+	cout << "The items in the " << itemContainer->name << " have been added to your inventory.\n\n>";
+}
+
+void Player::PutItemInsideItemContainer(Entity* item, Entity* itemContainer)
+{
+	itemContainer->Add(item);
+	cout << "The item " << item->name << " has been placed inside the " << itemContainer->name << ".\n\n>";
+	container.remove(item);
+}
+
+void Player::FillPossibleDirections()
+{
+	directions.push_back("north");
+	directions.push_back("south");
+	directions.push_back("east");
+	directions.push_back("west");
+	directions.push_back("up");
+	directions.push_back("down");
+}
+
+void Player::TunnelConfirmation(Room* destination)
+{
+	string answer;
+	cout << "This tunnel has some written numbers (" << destination->name << ") and leads to a ";
+	destination->PrintColorRoom();
+	cout << " room. Are you sure to go through this tunnel? (yes/no)\n\n>";
+
+	getline(cin, answer);
+
+	if (answer == "yes") ChangePlayerLocationAndLook(destination);
+	else cout << "You are still in the same room.\n\n>";
 }
 
 bool Player::DecreaseHealth(int percentage)
@@ -240,28 +246,16 @@ bool Player::IncreaseHungry(int percentage)
 	return true;
 }
 
-void Player::Open(const string& object)
+bool Player::Open(const string& object)
 {
-	list<Entity*> inventoryAndRoomContainer;
-	inventoryAndRoomContainer = container;
-	inventoryAndRoomContainer.insert(inventoryAndRoomContainer.end(), location->container.begin(), location->container.end());
-	for (list<Entity*>::iterator it = inventoryAndRoomContainer.begin(); it != inventoryAndRoomContainer.end(); ++it)
+	Entity* entity = Find(JoinLists(container, location->container), ITEM, object);
+	if(entity != nullptr)
 	{
-		if((*it)->type == ITEM)
-		{
-			string name = (*it)->name;
-			GetLowerCase(name);
-			if (static_cast<Item*>(*it)->item_type == CONTAINER && name == object)
-			{
-				if(!(*it)->container.empty())
-				{
-					this->container.insert(this->container.end(), (*it)->container.begin(), (*it)->container.end());
-					(*it)->container.clear();
-					cout << "The items in the " << (*it)->name << " have been added to your inventory.\n\n>";
-				}
-				else
-					cout << "The item " << (*it)->name << " is empty.\n\n>";
-			}
-		}
+		if (static_cast<Item*>(entity)->item_type == CONTAINER && !entity->container.empty())
+			MoveItemsToInventory(entity);
+		else
+			cout << "The item " << entity->name << " is empty.\n\n>";
+		return true;
 	}
+	return false;
 }

@@ -24,7 +24,7 @@ void GetUpperCase(string& sentence)
 	}
 }
 
-void Split(string& sentence, const string& delimiter, vector<string> args)
+void Split(string& sentence, const string& delimiter, vector<string>& args)
 {
 	size_t pos = 0;
 	string token;
@@ -48,4 +48,12 @@ void PrintColorNameWithColor(string& colorName) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 	cout << colorName;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+}
+
+list<Entity*> JoinLists(list<Entity*> a, list<Entity*> b)
+{
+	list<Entity*> aPlusB;
+	aPlusB = a;
+	aPlusB.insert(aPlusB.end(), b.begin(), b.end());
+	return aPlusB;
 }

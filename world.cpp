@@ -239,62 +239,58 @@ World::~World()
 
 bool World::Process(vector<string> args) const
 {	
-	bool ret = true;
 	if(args.size() == 1)
 	{
 		if (args[0] == "look" || args[0] == "l")
 		{
-			player->Look();
+			return player->Look();
 		}else if(args[0] == "inventory" || args[0] == "i")
 		{
-			player->ShowInventory();
+			return player->ShowInventory();
 		}else if(args[0] == "diagnose") 
 		{
-			player->ShowStatus();
+			return player->ShowStatus();
 		}else if (args[0] == "help")
 		{
-			ShowHelp();
+			return ShowHelp();
 		}else if (args[0] == "info")
 		{
-			ShowInfo();
-		}else
-			ret = false;
+			return ShowInfo();
+		}
+		return false;
 			
 	}else if(args.size() == 2)
 	{
-		if (args[0] == "goto" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west" || args[1] == "up" || args[1] == "down"))
+		if (args[0] == "goto")
 		{
-			player->GoTo(args[1]);
-		}else if(args[0] == "take")
+			return player->GoTo(args[1]);
+		}
+		else if (args[0] == "take")
 		{
-			player->Take(args[1]);
-		}else if(args[0] == "drop")
+			return player->Take(args[1]);
+		}
+		else if (args[0] == "drop")
 		{
-			player->Drop(args[1]);
-		}else if (args[0] == "use")
+			return player->Drop(args[1]);
+		}
+		else if (args[0] == "use")
 		{
-			player->Use(args[1]);
+			return player->Use(args[1]);
 		}
 		else if (args[0] == "open")
 		{
-			player->Open(args[1]);
+			return player->Open(args[1]);
 		}
-		else
-			ret = false;
+		return false;
 
 	}else if(args.size() == 4)
 	{
 		if (args[0] == "put" && args[2] == "inside")
-		{
-			if(player->HasThisItem(args[1]))
-				player->PutInside(args[1], args[3]);
-			else
-				cout << "You do not have the item " << args[1] << " in your inventory.\n\n";
-		}
+			return player->PutInside(args[1], args[3]);
 		else
-			ret = false;
+			return false;
 	}
-	return ret;
+	return false;
 }
 
 bool World::GameLoop()
@@ -366,7 +362,7 @@ void World::ChangeRoomsPosition()
 	cout << "\nThe room is shaking, it seems that the exits have changed.\n\n>";
 }
 
-void World::ShowHelp()
+bool World::ShowHelp()
 {
 	cout << "Useful commands:\n\n";
 	cout << "\tThe 'INFO' command prints information which might give some idea of what the game is about.\n";
@@ -385,14 +381,16 @@ void World::ShowHelp()
 	cout << "\tThe 'INVENTORY' command may be abbreviated 'I'.\n";
 	cout << "\tThe 'LOOK' command may be abbreviated 'L'.\n";
 	cout << "\tThe 'QUIT' command may be abbreviated 'Q'.\n\n>";
+	return true;
 }
 
-void World::ShowInfo()
+bool World::ShowInfo()
 {
 	cout << "Welcome to ZORKCUBE\n\n";
 	cout << "You wake up in a white room and you do not know how you got there.";
 	cout << "The room has six exits but someones are blocked. From time to time, you feel that the room has been moved.\n\n";
 	cout << "The player are closed inside a big 3x3x3 cube with nine mini cubes / rooms inside it in movement(every some inputs).";
 	cout << "The big one only has an exit and the little ones have 6 exits.\n\n";
-	cout << "Your goal is to get out of the big cube.\n\n";
+	cout << "Your goal is to get out of the big cube.\n\n>";
+	return true;
 }
